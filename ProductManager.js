@@ -5,18 +5,19 @@ class ProductManager {
       this.products = [];
     }
     addProduct(title, description, price, thumbnail, code, stock) {
-        ProductManager.lastId++;
+        
         if(this.products.some(product => product.code=== code)) {
             throw new Error("El código de producto ingresado ya existe");
         }else{
-        const product ={
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock,
-            id:ProductManager.lastId,
+            ProductManager.lastId++;
+            const product ={
+                title,
+                description,
+                price,
+                thumbnail,
+                code,
+                stock,
+                id:ProductManager.lastId,
         };
         this.products.push(product);
     }
