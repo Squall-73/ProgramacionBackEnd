@@ -35,15 +35,15 @@ class ProductManager {
     }
 }
 
-console.log("\nNOTA: no se utilizó un 'throw new Error' para que la respuesta sea mas legible \n")
-const productoPrueba = new ProductManager();//OK
+console.log("\nNOTA: no se utilizó la sentencia 'throw new Error' para que la respuesta sea mas legible \n")
+const productoPrueba = new ProductManager();
 console.log("NOTA: Obtengo productos de lista vacía \n")
-console.log(productoPrueba.getProducts());//OK
-productoPrueba.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin Imagen","abc123",25 );//OK
+console.log(productoPrueba.getProducts());
+productoPrueba.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin Imagen","abc123",25 );
 console.log("\nNOTA: Obtengo productos habiendo agregado un objeto \n")
-console.log(productoPrueba.getProducts());//OK
+console.log(productoPrueba.getProducts());
 console.log("\nNOTA: Agrego objeto repetido por lo que obtengo mensaje de error \n")
-productoPrueba.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin Imagen","abc123",25 );//No tira error al tirar codigo repetido, pero no lo agrega
+productoPrueba.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin Imagen","abc123",25 );
 console.log("\nNOTA: Obtengo producto con id = 1 \n")
 console.log(productoPrueba.getProductById(1));
 console.log("\nNOTA: Obtengo mensaje de error porque ID=2 no existe \n")
