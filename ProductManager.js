@@ -35,7 +35,7 @@ class ProductManager {
     }
 }
 
-
+console.log("\nNOTA: no se utilizó un 'throw new Error' para que la respuesta sea mas legible \n")
 const productoPrueba = new ProductManager();//OK
 console.log("NOTA: Obtengo productos de lista vacía \n")
 console.log(productoPrueba.getProducts());//OK
