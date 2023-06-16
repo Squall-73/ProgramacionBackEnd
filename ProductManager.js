@@ -6,8 +6,8 @@ class ProductManager {
     }
     addProduct(title, description, price, thumbnail, code, stock) {
         
-        if(this.products.some(product => product.code=== code)) {
-            throw new Error("El código de producto ingresado ya existe");
+        if(this.products.some(product => product.code === code)) {
+            throw new Error("The product code entered already exists");
         }else{
             ProductManager.lastId++;
             const product ={
@@ -26,12 +26,12 @@ class ProductManager {
         return this.products;    
     };
 
-    getProductById(idProducto) {
-      const prod = this.products.find(dato => dato.id === idProducto)
+    getProductById(productId) {
+      const prod = this.products.find(data => data.id === productId)
     if(prod){
         return prod;
     }else{
-        throw new Error("El producto solicitado no existe");
+        throw new Error("The requested product does not exist");
     }
     }
 }
