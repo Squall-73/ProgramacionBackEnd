@@ -1,4 +1,4 @@
-import { ProductManager } from "./ProductManager.js";
+import { ProductManager } from "./src/ProductManager.js";
 
 let myFirstStore = new ProductManager("./products.json");
 /*myFirstStore.addProduct(
