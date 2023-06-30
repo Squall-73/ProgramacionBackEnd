@@ -54,6 +54,7 @@ export class ProductManager {
     async getProducts() {
         try{
             let data = await utils.readFile(this.path);
+            this.products=data;
             return data?.length > 0 ? this.products : "There are no products registered";
         }catch(error){
             console.log(error)
@@ -121,3 +122,4 @@ export class ProductManager {
 export default {
     ProductManager,
 };
+
