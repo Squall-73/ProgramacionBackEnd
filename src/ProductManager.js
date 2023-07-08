@@ -12,7 +12,6 @@ export class ProductManager {
             title==undefined ||
             description==undefined ||
             price==undefined ||
-            thumbnail==undefined ||
             code==undefined ||
             stock==undefined
         )   {
@@ -30,7 +29,7 @@ export class ProductManager {
         }
         
         if(this.products.some(product => product.code === code)) {
-            throw new Error("The product code entered already exists");
+            return false;
         }else{
             ProductManager.lastId++;
             const product ={
@@ -39,13 +38,16 @@ export class ProductManager {
                 description,
                 price,
                 thumbnail,
+                status: true,
                 code,
                 stock,
+                
                 
         };
         this.products.push(product);
         try{
             await utils.writeFile(this.path, this.products);
+            return true;
         }catch(error){
             console.log(error)
         }
@@ -87,10 +89,7 @@ export class ProductManager {
                     ...productData,
                 };
                 await utils.writeFile(this.path, this.products);
-                return {
-                  Message: "Product updated",
-                  Product: this.products[productIndex],
-                };
+
             }else{
                 throw new Error("The requested product does not exist");
             }
@@ -106,7 +105,7 @@ export class ProductManager {
             let  productIndex = this.products.findIndex((data) => data.id === id)
             if(productIndex !==-1){
                 
-                this.products.splice(productIndex,1)
+                this.products[productIndex].status=false;
                 await utils.writeFile(this.path, this.products);
                 return "Produtc deleted succesfully"
                 }
