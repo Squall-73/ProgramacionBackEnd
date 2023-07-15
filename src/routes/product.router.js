@@ -1,5 +1,5 @@
 import { Router } from "express";
-import{ ProductManager} from "../ProductManager.js";
+import{ ProductManager} from "../manager/ProductManager.js";
 
 
 const router = Router();
@@ -11,21 +11,36 @@ router.get("/", async (req, res) => {
         let response = await productManager.getProducts();
         if(limit){
             let tempArray = response.filter((dat, index) => index < limit)
-            res.json({data: tempArray, limit: limit,quantity: tempArray.length});
+            res.render("home",{products: tempArray, limit: limit,quantity: tempArray.length});
         }else{
-        res.json({data: response, limit: false,quantity: response.length});
+        res.render("home",{products: response, limit: false,quantity: response.length});
         }
     }catch(error){
         console.log(error)
     }
-  });
+});
+
+router.get("/realtimeproducts", async (req, res) => {
+    const {limit} = req.query;
+    try{
+        let response = await productManager.getProducts();
+        if(limit){
+            let tempArray = response.filter((dat, index) => index < limit)
+            res.render("realTimeProducts",{products: tempArray, limit: limit,quantity: tempArray.length});
+        }else{
+        res.render("realTimeProducts",{products: response, limit: false,quantity: response.length});
+        }
+    }catch(error){
+        console.log(error)
+    }
+});
 
 router.get("/:pid", async (req, res) => {
     let {pid} = req.params;
     try{
         let product = await productManager.getProductById(parseInt(pid));
         if(product){
-            res.json({message: "success",data: product });
+            res.render("productById",{message: "success",product: product });
         }else{
         res.status(404).json({message:"The product does not exists" });
         }

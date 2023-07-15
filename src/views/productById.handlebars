@@ -1,0 +1,15 @@
+<div>
+      <p><b>ID:</b> {{product.id}}</p>
+      <p><b>Title:</b> {{product.title}}</p>
+      <p><b>Description:</b> {{product.description}}</p>
+      <p><b>Price:</b> {{product.price}}</p>
+      {{#if thumbnail}}
+      <p><b>Thumbnail:</b> {{product.thumbnail}}</p>
+      {{/if}}
+      <p><b>Code:</b> {{product.code}} </p>
+      <p><b>Stock:</b> {{product.stock}}</p>
+      {{#if product.status}}
+      {{else}}
+      <p style="color: red;"><b>Status: {{product.status}}</b></p>
+      {{/if}}
+</div>
