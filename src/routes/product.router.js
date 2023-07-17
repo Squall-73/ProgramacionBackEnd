@@ -20,20 +20,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/realtimeproducts", async (req, res) => {
-    const {limit} = req.query;
-    try{
-        let response = await productManager.getProducts();
-        if(limit){
-            let tempArray = response.filter((dat, index) => index < limit)
-            res.render("realTimeProducts",{products: tempArray, limit: limit,quantity: tempArray.length});
-        }else{
-        res.render("realTimeProducts",{products: response, limit: false,quantity: response.length});
-        }
-    }catch(error){
-        console.log(error)
-    }
-});
+
 
 router.get("/:pid", async (req, res) => {
     let {pid} = req.params;

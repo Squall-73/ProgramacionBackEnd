@@ -1,26 +1,75 @@
 <div>
- {{#each products}}
-      <p><b>ID:</b> {{this.id}}</p>
-      <p><b>Title:</b> {{this.title}}</p>
-      <p><b>Description:</b> {{this.description}}</p>
-      <p><b>Price:</b> {{this.price}}</p>
-      {{#if thumbnail}}
-      <p><b>Thumbnail:</b> {{this.thumbnail}}</p>
-      {{/if}}
-      <p><b>Code:</b> {{this.code}} </p>
-      <p><b>Stock:</b> {{this.stock}}</p>
-      {{#if status}}
-      {{else}}
-      <p style="color: red;"><b>Status: {{this.status}}</b></p>
-      {{/if}}
-      <p><b>-----------------------------------</b></p>
+  <h1>Realtime Productos</h1>
+
+  <form id="productForm" method="POST" action="/realtimeproducts">
+    <label for="productName">Nombre del producto:</label>
+    <input
+      type="text"
+      id="productName"
+      name="name"
+      placeholder="Nombre del producto"
+    />
+
+    <label for="productTitle">Título:</label>
+    <input
+      type="text"
+      id="productTitle"
+      name="title"
+      placeholder="Título del producto"
+    />
+
+    <label for="productDescription">Descripción:</label>
+    <textarea
+      id="productDescription"
+      name="description"
+      placeholder="Descripción del producto"
+    ></textarea>
+
+    <label for="productPrice">Precio:</label>
+    <input
+      type="number"
+      id="productPrice"
+      name="price"
+      step="0.01"
+      placeholder="Precio del producto"
+    />
+
+    <label for="productThumbnail">Thumbnail:</label>
+    <input
+      type="text"
+      id="productThumbnail"
+      name="thumbnail"
+      placeholder="URL del thumbnail"
+    />
+
+    <label for="productCode">Código:</label>
+    <input
+      type="text"
+      id="productCode"
+      name="code"
+      placeholder="Código del producto"
+    />
+
+    <label for="productStock">Stock:</label>
+    <input
+      type="number"
+      id="productStock"
+      name="stock"
+      placeholder="Stock del producto"
+    />
+
+    <button type="submit">Agregar</button>
+  </form>
+  <ul id="productList">
+    {{#each products}}
+      <li>
+        <h3>{{name}}</h3>
+        <p>Título: {{title}}</p>
+        <p>Descripción: {{description}}</p>
+        <p>Precio: {{price}}</p>
+        <img src={{thumbnail}} />
+      </li>
     {{/each}}
-  {{#if limit}}
-    <p><b>Limit:</b> {{this.limit}}</p>
-  {{else}}
-    <p><b>No Limit</b></p>
-  {{/if}}
-    <p><b>Quantity:</b> {{this.quantity}}</p>
+  </ul>
+
 </div>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/index.js"></script>
