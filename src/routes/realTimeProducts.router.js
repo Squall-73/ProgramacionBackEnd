@@ -18,7 +18,9 @@ router.get("/", async (req, res) => {
     }
 });
 
-/*router.post("/",async (req,res)=>{
+/*
+Este metodo post me permite a travez de websocket enviar un nuevo producto al json pero no actualiza automaticamente la lista 
+router.post("/",async (req,res)=>{
     
     const{title, description, price, thumbnail, code, stock}=req.body;
 
