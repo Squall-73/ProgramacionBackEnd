@@ -6,8 +6,7 @@ document.getElementById("productForm").addEventListener("submit", (event) => {
   event.preventDefault();
   const productName = document.getElementById("productName").value;
   const productTitle = document.getElementById("productTitle").value;
-  const productDescription =
-    document.getElementById("productDescription").value;
+  const productDescription = document.getElementById("productDescription").value;
   const productPrice = document.getElementById("productPrice").value;
   const productThumbnail = document.getElementById("productThumbnail").value;
 
@@ -19,7 +18,7 @@ document.getElementById("productForm").addEventListener("submit", (event) => {
     description: productDescription,
     price: productPrice,
     thumbnail: productThumbnail,
-  });
+    });
 
   // Limpiar el campo del formulario
   document.getElementById("productName").value = "";
@@ -51,8 +50,6 @@ function updateProductList(products) {
     productList.appendChild(li);
   });
 }
-
-// ...
 
 // Actualizar la lista de productos
 function updateProductList(products) {

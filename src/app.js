@@ -39,7 +39,6 @@ socketServer.on("connection", (socket) => {
     socketServer.emit("Answer", "Message Received");
   });
 
-
   socket.on("addProduct", (newProduct) => {
     console.log("New product received:", newProduct);
     saveProducts(newProduct);
