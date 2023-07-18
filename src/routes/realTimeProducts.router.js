@@ -29,8 +29,12 @@ router.post("/",async (req,res)=>{
     try{
         let product = await productManager.addProduct(title, description, price, thumbnail, code, stock);
         if(product){
-            res.json({message: "success",data: req.body });
-            socket.emit("addProduct", product );
+            let response = await productManager.getProducts();
+            let newproduct = await productManager.getProductById(response.length)
+        
+            res.render("realTimeProducts",{products: response});
+
+            socket.emit("addProduct", newproduct );
            
 
         }else{

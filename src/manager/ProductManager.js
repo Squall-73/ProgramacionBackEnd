@@ -41,8 +41,6 @@ export class ProductManager {
                 status: true,
                 code,
                 stock,
-                
-                
         };
         this.products.push(product);
         try{
