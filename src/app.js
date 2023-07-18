@@ -22,6 +22,8 @@ app.set('views','./views');
 app.set("view engine","handlebars");
 app.use(express.static("./public"));
 
+const socketServer = new Server(httpServer)
+
 app.use("/api/products", productRouter);
 app.use("/api/realtimeproducts", realTimeRouter);
 app.use("/api/carts", cartRouter);
@@ -29,7 +31,7 @@ app.use("/api/carts", cartRouter);
 httpServer.on("error",(error)=>{
   console.log("Error:" + error)
 })
-const socketServer = new Server(httpServer)
+
 
 socketServer.on("connection", (socket) => {
   console.log("New Client Connected");

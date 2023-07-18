@@ -101,19 +101,6 @@
     "status": false,
     "code": "BEB004",
     "stock": 25
-  },
-  {
-    "name": "123",
-    "price": "",
-    "thumbnail": "",
-    "description": "",
-    "title": ""
-  },
-  {
-    "name": "asd",
-    "price": "",
-    "thumbnail": "",
-    "description": "",
-    "title": ""
   }
+  
 ]
