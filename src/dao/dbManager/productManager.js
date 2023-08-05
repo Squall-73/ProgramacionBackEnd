@@ -25,7 +25,7 @@ export default class Products {
         return respuesta;
     };
     
-    async delete(id, data){
+    async delete(id){
     const respuesta = productsModel.findByIdAndDelete(id);
     return respuesta;
     };  

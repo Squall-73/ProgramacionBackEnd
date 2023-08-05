@@ -15,7 +15,7 @@ const productsSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  thumbnail: [String],
+  thumbnail: Array,
   status: {
     type: Boolean,
     default: true,
