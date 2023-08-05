@@ -1,17 +1,22 @@
 import express from "express";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js"
-import productRouter from "./routes/product.router.js";
-import cartRouter from "./routes/cart.router.js";
-import realTimeRouter from "./routes/realTimeProducts.router.js";
+import productRouter from "./routes/dbRoutes/product.router.js";
+import cartRouter from "./routes/fileRoutes/cart.router.js";
+import realTimeRouter from "./routes/fileRoutes/realTimeProducts.router.js";
 import {Server} from "socket.io";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
 
+dotenv.config();
 const app = express();
 const PORT = 8080;
 const httpServer = app.listen(PORT, () => {
   console.log("Server running on port " + PORT);
 });
+const MONGO_URI = process.env.MONGO_URI;
+const connection = mongoose.connect(MONGO_URI);
 
 
 app.use(express.json());

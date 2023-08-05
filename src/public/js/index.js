@@ -1,6 +1,6 @@
 const socket = io();
 
-const productListContainer = document.createElement("ul");
+const productListContainer = document.createElement("div");
 productListContainer.id = "productList";
 
 document.body.appendChild(productListContainer);
