@@ -1,7 +1,6 @@
 {
   "name": "desafio2",
   "version": "1.0.0",
-  "description": "",
   "main": "ProductManager.js",
   "type": "module",
   "scripts": {
@@ -18,5 +17,7 @@
     "mongoose": "^7.4.1",
     "nodemon": "^2.0.22",
     "socket.io": "^4.7.1"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }
