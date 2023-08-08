@@ -20,7 +20,7 @@ export default class Carts {
         const respuesta = cartsModel.findByIdAndUpdate(id, data);
         return respuesta;
     };
-    
+
     async delete(id){
     const respuesta = cartsModel.findByIdAndDelete(id);
     return respuesta;

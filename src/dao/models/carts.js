@@ -4,10 +4,11 @@ const cartsCollection = "Carts";
 
 const cartsSchema = new mongoose.Schema({
   products: {
-    type: Array,
+    type: [{id: String,
+            quantity: Number}],
     default: [],
   }
 });
-const cartsModel = mongoose.model(cartsCollection, cartsSchema, "Carts");
+const cartsModel = mongoose.model(cartsCollection, cartsSchema, cartsCollection);
 
 export default cartsModel;

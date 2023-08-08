@@ -33,6 +33,7 @@ app.use("/api/products", productRouter);
 app.use("/api/realtimeproducts", realTimeRouter(socketServer));
 app.use("/api/carts", cartRouter);
 
+
 httpServer.on("error",(error)=>{
   console.log("Error:" + error)
 })

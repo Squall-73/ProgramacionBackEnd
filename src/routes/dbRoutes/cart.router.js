@@ -1,9 +1,11 @@
 import { Router } from "express";
 import Carts from "../../dao/dbManager/cartManager.js";
+import Products from "../../dao/dbManager/productManager.js"
 
 
 const router = Router();
 const carts = new Carts();
+const products = new Products();
 
 router.get("/", async (req, res) => {
     const {limit} = req.query;
@@ -37,7 +39,7 @@ router.get("/:cid", async (req, res) => {
 router.post("/",async (req,res)=>{
     
     try{
-        let cart = await carts.save(data);
+        let cart = await carts.save();
         if(cart){
             res.json({message: "Cart created"});
         }else{
@@ -47,14 +49,26 @@ router.post("/",async (req,res)=>{
         console.log(error)
     }
 });
-//TODO: post products en cart + chat
+
 router.post("/:cid/product/:pid",async (req,res)=>{
     let {cid, pid} = req.params;
+    //let quantity = req.body;
     try{
-        let data = await cartManager.getCartById(parseInt(cid));
-        if(data){
-            let cart = await cartManager.updateCart(parseInt(cid),parseInt(pid))
+        let cart = await carts.getById(cid);
+        let product = await products.getById(pid);
+        
+        if(cart){
+            if(product){
+            const existsPindex = cart.products.findIndex((producto) => producto.id === pid);
+            
+            if(existsPindex !==-1){
+                cart.products[existsPindex].quantity++;
+            }else{cart.products.push({id:pid,quantity:1})}
+            await carts.save(cart);
             res.json({message: "Cart updated", data:cart });
+        }else{
+            res.status(404).json({message:"The product does not exists" });
+        }
         }else{
             res.status(404).json({message:"The cart does not exists" });
         }
