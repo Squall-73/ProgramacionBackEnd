@@ -26,9 +26,10 @@ router.get("/:cid", async (req, res) => {
     let {cid} = req.params;
     try{
         let cart = await carts.getById(cid);
+
+        
         if(cart){
             const productsWithDetails = [];
-
             for (const item of cart.products) {
                 const productDetails = await products.getById(item.id);
                 productsWithDetails.push({
@@ -36,6 +37,7 @@ router.get("/:cid", async (req, res) => {
                     quantity: item.quantity
                 });
             }
+            
             res.json({message: "success",cart:productsWithDetails });
         }else{
         res.status(404).json({message:"The cart does not exists" });
