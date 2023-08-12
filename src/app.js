@@ -4,6 +4,7 @@ import __dirname from "./utils.js"
 import productRouter from "./routes/dbRoutes/product.router.js";
 import cartRouter from "./routes/dbRoutes/cart.router.js";
 import realTimeRouter from "./routes/fileRoutes/realTimeProducts.router.js";
+import homeRouter from "./routes/dbRoutes/home.router.js";
 import {Server} from "socket.io";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -32,6 +33,7 @@ const socketServer = new Server(httpServer)
 app.use("/api/products", productRouter);
 app.use("/api/realtimeproducts", realTimeRouter(socketServer));
 app.use("/api/carts", cartRouter);
+app.use("/", homeRouter);
 
 
 httpServer.on("error",(error)=>{

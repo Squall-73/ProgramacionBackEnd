@@ -2,20 +2,42 @@ import { Router } from "express";
 import Products from "../../dao/dbManager/productManager.js";
 
 
-
 const router = Router();
 const products = new Products()
 
 router.get("/", async (req, res) => {
-    const {limit} = req.query;
+    const {limit, page, filter,sort, cartId, addedToCart} = req.query;
+    const perPage = limit || 10; 
     try{
-        let response = await products.getAll();
-        if(limit){
-            let tempArray = response.filter((dat, index) => index < limit)
-            res.render("home",{products: tempArray, limit: limit,quantity: tempArray.length});
-        }else{
-        res.render("home",{products: response, limit: false,quantity: response.length});
+        
+
+        const sortOptions = {};
+        if (sort === 'price') {
+            sortOptions.price = 1;
+        } else if (sort === '-price') {
+            sortOptions.price = -1;
         }
+        const options = {
+            page: page || 1,
+            limit: perPage,
+            sort: sortOptions,
+        };
+        
+        let response = await products.getAll(options, filter);
+        const lastPageItemCount = response.totalDocs % perPage;  
+        const added = addedToCart==='true'
+        res.render("products",{response:response,
+            products: response.docs.map(doc =>doc.toObject()),
+            limit: perPage,
+            totalPages: response.totalPages,
+            currentPage: response.page,
+            totalDocs: response.totalDocs,
+            lastPageItemCount:lastPageItemCount,
+            filter: filter,
+            cartId:cartId,
+            addedToCart: added,
+            });
+        
     }catch(error){
         console.log(error)
     }

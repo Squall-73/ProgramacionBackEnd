@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2"
 
 const productsCollection = "Products";
 
@@ -31,9 +32,12 @@ const productsSchema = new mongoose.Schema({
   },
 });
 
+
 productsSchema.statics.findByCode = async function (code) {
   return this.findOne({code});
 }
-const productsModel = mongoose.model(productsCollection, productsSchema, "Products");
+
+productsSchema.plugin(mongoosePaginate);
+const productsModel = mongoose.model(productsCollection, productsSchema, productsCollection);
 
 export default productsModel;

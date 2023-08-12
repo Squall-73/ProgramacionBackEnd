@@ -2,6 +2,7 @@ import cartsModel from "../models/carts.js";
 import mongoose from "mongoose";
 
 export default class Carts {
+    
     async getAll(){
     return await cartsModel.find({}).lean();
     }

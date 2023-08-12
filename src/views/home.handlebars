@@ -1,24 +1,10 @@
-<div>
-  <h1>Lista de productos</h1>
- {{#each products}}
-       <p><b>Title:</b> {{this.title}}</p>
-      <p><b>Description:</b> {{this.description}}</p>
-      <p><b>Price:</b> {{this.price}}</p>
-      {{#if thumbnail}}
-      <p><b>Thumbnail:</b> {{this.thumbnail}}</p>
-      {{/if}}
-      <p><b>Code:</b> {{this.code}} </p>
-      <p><b>Stock:</b> {{this.stock}}</p>
-      {{#if status}}
-      {{else}}
-      <p style="color: red;"><b>Status: {{this.status}}</b></p>
-      {{/if}}
-      <p><b>-----------------------------------</b></p>
-    {{/each}}
-  {{#if limit}}
-    <p><b>Limit:</b> {{this.limit}}</p>
-  {{else}}
-    <p><b>No Limit</b></p>
-  {{/if}}
-    <p><b>Quantity:</b> {{this.quantity}}</p>
-</div>
+<head>
+  <title>Inicio</title>
+</head>
+<body>
+  <h1>Bienvenido a la tienda</h1>
+  <p>Ingresa para comenzar tus compras.</p>
+  <form action="/api/login" method="post">
+    <button type="submit">Ingresar</button>
+  </form>
+</body>

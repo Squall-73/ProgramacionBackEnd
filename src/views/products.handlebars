@@ -1,0 +1,72 @@
+<div>
+  <form action="/api/products" method="get">
+      <label for="sort" >Ordenar por:</label>
+      <select name="sort" id="sort">
+          <option value="">Sin orden</option>
+          <option value="price">Precio ascendente</option>
+          <option value="-price">Precio descendente</option>
+      </select>
+        <br>
+        <label for="limit">Mostrar por página:</label>
+        <input type="text" name="limit" id="limit" value="{{limit}}">
+        <input type="hidden" name="filter" value="{{filter}}">
+        <input type="hidden" name="page" value="{{currentPage}}">
+        <br>
+        <button type="submit">Aplicar</button>
+  </form>
+
+  <h2>Filtrar por categoría:</h2>
+    <a href="?filter=">Todos</a><br>
+    <a href="?filter=BEBI">Bebidas</a><br>
+    <a href="?filter=ALIM">Alimentos</a><br>
+    <a href="?filter=LIMP">Limpieza</a><br>
+
+    <br>
+    <b><a href="/api/carts/{{cartId}}">Ver mi carrito</a></b>
+    
+</div>
+
+<div>
+  <h1>Lista de productos</h1>
+    {{#if addedToCart}}
+      <div style="color: green;">Producto agregado al carrito</div>
+    {{/if}}
+ {{#each products}}
+
+      <p><b>Title:</b> {{title}}</p>
+      <p><b>Description:</b> {{description}}</p>
+      <p><b>Price:</b> {{price}}</p>
+      {{#if thumbnail.length}}
+      <p><b>Thumbnail:</b> {{thumbnail}}</p>
+      {{/if}}
+      <p><b>Code:</b> {{code}} </p>
+      <p><b>Stock:</b> {{stock}}</p>
+      {{#if status}}
+      {{else}}
+      <p style="color: red;"><b>Status: {{status}}</b></p>
+      {{/if}}
+        <form action="/api/carts/{{../cartId}}/product/{{_id}}" method="post">
+          <label for="quantity-{{_id}}">Cantidad:</label>
+          <input type="number" name="quantity" id="quantity-{{_id}}" value="1" min="1">
+          <button type="submit">Agregar al carrito</button>
+        </form>
+
+      <hr></hr>
+  {{/each}}
+</div>
+
+<div>
+    <p>Página {{currentPage}} de {{totalPages}}</p>
+    {{#if response.hasNextPage}}
+    <p>Mostrando {{limit}} productos de un total de {{response.totalDocs}}</p>
+    {{else}}
+    <p>Mostrando {{lastPageItemCount}} productos de un total de {{response.totalDocs}}</p>
+    {{/if}}
+    {{#if response.hasPrevPage}}
+        <a href="?page={{response.prevPage}}&limit={{limit}}&filter={{filter}}&sort={{sort}}">Anterior</a>
+    {{/if}}
+    {{#if response.hasNextPage}}
+        <a href="?page={{response.nextPage}}&limit={{limit}}&filter={{filter}}&sort={{sort}}">Siguiente</a>
+    {{/if}}
+</div>
+

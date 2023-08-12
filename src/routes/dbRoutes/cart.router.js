@@ -27,7 +27,16 @@ router.get("/:cid", async (req, res) => {
     try{
         let cart = await carts.getById(cid);
         if(cart){
-            res.json({message: "success",cart:cart });
+            const productsWithDetails = [];
+
+            for (const item of cart.products) {
+                const productDetails = await products.getById(item.id);
+                productsWithDetails.push({
+                    product: productDetails,
+                    quantity: item.quantity
+                });
+            }
+            res.json({message: "success",cart:productsWithDetails });
         }else{
         res.status(404).json({message:"The cart does not exists" });
         }
@@ -52,7 +61,7 @@ router.post("/",async (req,res)=>{
 
 router.post("/:cid/product/:pid",async (req,res)=>{
     let {cid, pid} = req.params;
-    //let quantity = req.body;
+    let {quantity} = req.body;
     try{
         let cart = await carts.getById(cid);
         let product = await products.getById(pid);
@@ -62,10 +71,13 @@ router.post("/:cid/product/:pid",async (req,res)=>{
             const existsPindex = cart.products.findIndex((producto) => producto.id === pid);
             
             if(existsPindex !==-1){
-                cart.products[existsPindex].quantity++;
-            }else{cart.products.push({id:pid,quantity:1})}
-            await carts.save(cart);
-            res.json({message: "Cart updated", data:cart });
+                cart.products[existsPindex].quantity+=parseInt(quantity);
+            }else{cart.products.push({id:pid,quantity:parseInt(quantity)})}
+            const updatedCart = await carts.save(cart);
+            const cartId = updatedCart._id;
+            const addedToCart = true;
+
+            res.redirect(`/api/products?cartId=${cartId}&addedToCart=${addedToCart}`);
         }else{
             res.status(404).json({message:"The product does not exists" });
         }

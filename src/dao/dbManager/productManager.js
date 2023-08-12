@@ -2,8 +2,18 @@ import productsModel from "../models/products.js";
 import mongoose from "mongoose";
 
 export default class Products {
-    async getAll(){
-    return await productsModel.find({}).lean();
+    async getAll(options, filter){
+        try{
+            const filterQuery = filter ? { code: new RegExp(`^${filter}[0-9]{4}$`, 'i') } : {};
+            const response= await productsModel.paginate(filterQuery,options);
+            
+            return response;
+
+        }catch(error){
+            console.log(error);
+            throw new Error("error fetching products")
+        }
+    
     }
 
     async getById(id){
