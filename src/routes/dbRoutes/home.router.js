@@ -17,7 +17,7 @@ router.get("/api/", async (req, res) => {
 router.post("/api/login", async (req,res) =>{
 try{
     const userQuantity = (await user.getAll()).length;
-    const newUserName = "User" + (userQuantity+1);
+    const newUserName = "User " + (userQuantity+1);
     const newUser = await user.save({userName: newUserName});
     const newCart = await cart.save({user:newUser});
     const cartId = newCart._id;

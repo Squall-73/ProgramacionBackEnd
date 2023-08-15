@@ -6,11 +6,6 @@ const usersCollection = "Users";
 const usersSchema = new mongoose.Schema({
     userName:{ type: String,
                 required: true},
-  cart: {
-    type: [{id: String,
-            }],
-    default: [],
-  }
 });
 
 usersSchema.plugin(mongoosePaginate);

@@ -37,8 +37,9 @@ router.get("/:cid", async (req, res) => {
                     quantity: item.quantity
                 });
             }
+
             
-            res.json({message: "success",cart:productsWithDetails });
+            res.render("cart",{cart:productsWithDetails, cid: cid });
         }else{
         res.status(404).json({message:"The cart does not exists" });
         }
@@ -91,5 +92,64 @@ router.post("/:cid/product/:pid",async (req,res)=>{
     }
 });
 
+router.delete("/:cid/products/:pid",async(req,res)=>{
+    const {cid,pid} = req.params
+    let cart = await carts.getById(cid);
+    let products = cart.products
+    let existsPindex = products.findIndex((producto) => producto.id === pid);
+    if(existsPindex!== -1){
+      products.splice(existsPindex,1)
+      await carts.save(cart);
+      return res.json({ message: "Product removed from cart" });
+    }else{
+      return res.status(404).json({message: "Product not found"})
+    }
+})
+
+router.put("/:cid",async(req,res)=>{
+    const {cid} = req.params
+    const {data} = req.body
+    let cart = await carts.getById(cid)
+    cart = data
+    await carts.save(cart);
+    return res.json({message: "Cart updated", data: cart})
+})
+
+
+router.put("/:cid/products/:pid",async(req,res)=>{
+     const {cid,pid} = req.params
+     const {quantity} = req.body
+     let cart = await carts.getById(cid)
+     let product = cart.products
+     let existsPindex = product.findIndex((producto) => producto.id === pid);
+     if(existsPindex!== -1){
+     product[existsPindex].quantity = quantity
+     let updatedCart = await carts.save(cart);
+    console.log(updatedCart)
+     const productsWithDetails = [];
+            for (const item of updatedCart.products) {
+                const productDetails = await products.getById(item.id);
+                productsWithDetails.push({
+                    product: productDetails,
+                    quantity: item.quantity
+                });
+            }
+         
+    return res.json({ message: "Product updated" });
+
+
+     }else{
+      return res.status(404).json({message: "Product not found"})
+     }
+})
+
+
+router.delete("/:cid",async(req,res)=>{
+    const {cid} = req.params
+    let cart = await carts.getById(cid)
+    cart.products = []
+    await carts.save(cart);
+    return res.json({message: "Cart updated"})
+})
 
 export default router;

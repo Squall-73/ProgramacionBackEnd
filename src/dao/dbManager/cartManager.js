@@ -26,4 +26,10 @@ export default class Carts {
     const respuesta = cartsModel.findByIdAndDelete(id);
     return respuesta;
     };  
+
+    async removeProduct(cart, pid){
+    const updatedProducts = cart.products.filter(item => item.id !== pid);
+    cart.products = updatedProducts;
+    return cart;
+}
 }

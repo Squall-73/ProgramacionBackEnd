@@ -6,6 +6,11 @@ export default class Users {
         return await usersModel.find({}).lean();
     }
 
+    async getUserNameById(id){
+        const objectId = new mongoose.Types.ObjectId(id);
+        const user = await usersModel.findOne(objectId);
+        return user
+    }
     async getById(id){
         const objectId = new mongoose.Types.ObjectId(id);
         return await usersModel.findOne(objectId);

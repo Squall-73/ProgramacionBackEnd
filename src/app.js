@@ -8,6 +8,9 @@ import homeRouter from "./routes/dbRoutes/home.router.js";
 import {Server} from "socket.io";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import methodOverride from 'method-override';
+import bodyParser from 'body-parser'; 
+
 
 
 dotenv.config();
@@ -21,9 +24,15 @@ const connection = mongoose.connect(MONGO_URI);
 
 
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({extended: true}))
+app.use(methodOverride('_method'));
 
-app.engine("handlebars", handlebars.engine());
+app.engine("handlebars", handlebars.engine({runtimeOptions: {
+  allowProtoPropertiesByDefault: true,
+  noEscape: true
+}
+}));
 app.set('views','./views');
 app.set("view engine","handlebars");
 app.use(express.static("./public"));
