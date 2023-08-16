@@ -106,7 +106,7 @@ router.delete("/:cid/products/:pid",async(req,res)=>{
     }
 })
 
-router.post("/:cid/add-products", async (req, res) => {
+router.put("/:cid/add-products", async (req, res) => {
     const { cid } = req.params;
     const { products } = req.body;
 

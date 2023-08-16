@@ -1,1 +1,125 @@
-[{"id":1,"title":"Coca Cola 2L","description":"Gaseosa Cola - Botella de 2 litros","price":500,"thumbnail":["image1.jpg ","image2.jpg"],"status":true,"code":"BEB001","stock":25},{"id":2,"title":"Pepsi Cola 2L","description":"Gaseosa Cola - Botella de 2 litros","price":550,"thumbnail":[],"status":true,"code":"BEB002","stock":25},{"id":3,"title":"Fanta 2L","description":"Gaseosa naranja - Botella de 2 litros","price":450,"thumbnail":[],"status":true,"code":"BEB003","stock":25},{"id":4,"title":"Yerba Mate Playadito 1kg","description":"Yerba Mate - Paquete de 1 kilo","price":300,"thumbnail":[],"status":true,"code":"ALIM0001","stock":25},{"id":5,"title":"Jabón líquido Skip 3L","description":"Jabón líquido - Paquete de 3 litros","price":800,"thumbnail":[],"status":true,"code":"LIM0001","stock":25},{"id":6,"title":"Aceite Cocinero 1L ","description":"Aceite de Girasol - Botella de 1 litro","price":200,"thumbnail":[],"status":true,"code":"ALIM0002","stock":25},{"id":7,"title":"Leche La Serenísima 1L","description":"Leche Entera - Caja de 1 Litro","price":250,"thumbnail":[],"status":true,"code":"ALIM0003","stock":25},{"id":8,"title":"Sal Dos Anclas 500g","description":"Sal Fina - Paquete de 500 gramos","price":200,"thumbnail":[],"status":true,"code":"ALIM0004","stock":25},{"id":9,"title":"Azúcar Ledesma 1kg ","description":"Azúcar bñanca - paquete de 1 kg ","price":200,"thumbnail":[],"status":true,"code":"ALIM0005","stock":25},{"id":10,"title":"Latitud 33 Malbec","description":"Vino tinto Malbec - Botella de 1 litro","price":1000,"thumbnail":[],"status":false,"code":"BEB004","stock":25},{"id":11,"title":"Queso Rallado La Serenísima 200gr","description":"Queso Rallado - Paquete de 200 gramos","price":350,"thumbnail":[],"status":true,"code":"ALIM0006","stock":25},{"id":12,"title":"Queso Rallado La Serenísima 500gr","description":"Queso Rallado - Paquete de 500 gramos","price":350,"thumbnail":[],"status":true,"code":"ALIM0008","stock":25}]
+[
+    {
+        "id": 1,
+        "title": "Coca Cola 2L",
+        "description": "Gaseosa Cola - Botella de 2 litros",
+        "price": 500,
+        "thumbnail": [
+            "image1.jpg ",
+            "image2.jpg"
+        ],
+        "status": true,
+        "code": "BEB001",
+        "stock": 25
+    },
+    {
+        "id": 2,
+        "title": "Pepsi Cola 2L",
+        "description": "Gaseosa Cola - Botella de 2 litros",
+        "price": 550,
+        "thumbnail": [],
+        "status": true,
+        "code": "BEB002",
+        "stock": 25
+    },
+    {
+        "id": 3,
+        "title": "Fanta 2L",
+        "description": "Gaseosa naranja - Botella de 2 litros",
+        "price": 450,
+        "thumbnail": [],
+        "status": true,
+        "code": "BEB003",
+        "stock": 25
+    },
+    {
+        "id": 4,
+        "title": "Yerba Mate Playadito 1kg",
+        "description": "Yerba Mate - Paquete de 1 kilo",
+        "price": 300,
+        "thumbnail": [],
+        "status": true,
+        "code": "ALIM0001",
+        "stock": 25
+    },
+    {
+        "id": 5,
+        "title": "Jabón líquido Skip 3L",
+        "description": "Jabón líquido - Paquete de 3 litros",
+        "price": 800,
+        "thumbnail": [],
+        "status": true,
+        "code": "LIM0001",
+        "stock": 25
+    },
+    {
+        "id": 6,
+        "title": "Aceite Cocinero 1L ",
+        "description": "Aceite de Girasol - Botella de 1 litro",
+        "price": 200,
+        "thumbnail": [],
+        "status": true,
+        "code": "ALIM0002",
+        "stock": 25
+    },
+    {
+        "id": 7,
+        "title": "Leche La Serenísima 1L",
+        "description": "Leche Entera - Caja de 1 Litro",
+        "price": 250,
+        "thumbnail": [],
+        "status": true,
+        "code": "ALIM0003",
+        "stock": 25
+    },
+    {
+        "id": 8,
+        "title": "Sal Dos Anclas 500g",
+        "description": "Sal Fina - Paquete de 500 gramos",
+        "price": 200,
+        "thumbnail": [],
+        "status": true,
+        "code": "ALIM0004",
+        "stock": 25
+    },
+    {
+        "id": 9,
+        "title": "Azúcar Ledesma 1kg ",
+        "description": "Azúcar bñanca - paquete de 1 kg ",
+        "price": 200,
+        "thumbnail": [],
+        "status": true,
+        "code": "ALIM0005",
+        "stock": 25
+    },
+    {
+        "id": 10,
+        "title": "Latitud 33 Malbec",
+        "description": "Vino tinto Malbec - Botella de 1 litro",
+        "price": 1000,
+        "thumbnail": [],
+        "status": false,
+        "code": "BEB004",
+        "stock": 25
+    },
+    {
+        "id": 11,
+        "title": "Queso Rallado La Serenísima 200gr",
+        "description": "Queso Rallado - Paquete de 200 gramos",
+        "price": 350,
+        "thumbnail": [],
+        "status": true,
+        "code": "ALIM0006",
+        "stock": 25
+    },
+    {
+        "id": 12,
+        "title": "Queso Rallado La Serenísima 500gr",
+        "description": "Queso Rallado - Paquete de 500 gramos",
+        "price": 350,
+        "thumbnail": [],
+        "status": true,
+        "code": "ALIM0008",
+        "stock": 25
+    }
+]
