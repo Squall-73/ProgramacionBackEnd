@@ -106,14 +106,20 @@ router.delete("/:cid/products/:pid",async(req,res)=>{
     }
 })
 
-router.put("/:cid",async(req,res)=>{
-    const {cid} = req.params
-    const {data} = req.body
-    let cart = await carts.getById(cid)
-    cart = data
-    await carts.save(cart);
-    return res.json({message: "Cart updated", data: cart})
-})
+router.post("/:cid/add-products", async (req, res) => {
+    const { cid } = req.params;
+    const { products } = req.body;
+
+    try {
+        let cart = await carts.getById(cid);
+        cart.products = [...cart.products, ...products]; // Agregar los nuevos productos
+        await carts.save(cart);
+        return res.json({ message: "Products added to cart", data: cart });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
 
 
 router.put("/:cid/products/:pid",async(req,res)=>{
