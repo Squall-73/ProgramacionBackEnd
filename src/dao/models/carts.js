@@ -13,6 +13,15 @@ const cartsSchema = new mongoose.Schema({
   }
 });
 
+
+cartsSchema.statics.getByIdWithProducts = async function (cartId) {
+  try {
+    const cart = await this.findById(cartId).populate("products.id");
+    return cart;
+  } catch (error) {
+    throw new Error("Can't get cart with products");
+  }
+};
 cartsSchema.plugin(mongoosePaginate);
 const cartsModel = mongoose.model(cartsCollection, cartsSchema, cartsCollection);
 

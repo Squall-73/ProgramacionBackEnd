@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
-import mongoosePaginate from "mongoose-paginate-v2"
 
-const usersCollection = "Users";
+const userCollection = "users";
 
-const usersSchema = new mongoose.Schema({
-    userName:{ type: String,
-                required: true},
+const userSchema = new mongoose.Schema({
+  first_name: { type: String, required: true, max: 100 },
+  last_name: { type: String, required: true, max: 100 },
+  email: { type: String, required: true, max: 100, unique: true },
+  password: { type: String, required: true, max: 100 },
+  age: { type: Number, required: true, max: 100 },
 });
 
-usersSchema.plugin(mongoosePaginate);
-const usersModel = mongoose.model(usersCollection, usersSchema, usersCollection);
+const User = mongoose.model(userCollection, userSchema);
 
-export default usersModel;
+export default User;

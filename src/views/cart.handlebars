@@ -5,6 +5,10 @@
         <button type="button" onclick="emptyCart('/api/carts/{{cid}}')">Empty Cart</button>
     </form>
 
+    <form>
+        <button type="button" onclick="goBack()">Return</button>
+    </form>
+
     {{#each cart}}
 
       <p><b>Title:</b> {{product.title}}</p>

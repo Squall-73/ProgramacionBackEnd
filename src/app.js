@@ -4,12 +4,16 @@ import __dirname from "./utils.js"
 import productRouter from "./routes/dbRoutes/product.router.js";
 import cartRouter from "./routes/dbRoutes/cart.router.js";
 import realTimeRouter from "./routes/fileRoutes/realTimeProducts.router.js";
-import homeRouter from "./routes/dbRoutes/home.router.js";
+import loginRouter from "./routes/dbRoutes/login.router.js"
+import signupRouter from "./routes/dbRoutes/signup.router.js"
 import {Server} from "socket.io";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import methodOverride from 'method-override';
 import bodyParser from 'body-parser'; 
+import MongoStore from "connect-mongo"
+import session from "express-session";
+import sessionRouter from "./routes/dbRoutes/session.router.js"
 
 
 
@@ -19,9 +23,35 @@ const PORT = process.env.PORT || 8080;
 const httpServer = app.listen(PORT, () => {
   console.log("Server running on port " + PORT);
 });
-const MONGO_URI = process.env.MONGO_URI;
-const connection = mongoose.connect(MONGO_URI);
+const MONGO_URL = process.env.MONGO_URL
 
+const connection = mongoose.connect(MONGO_URL)
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: MONGO_URL,
+      mongoOptions: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
+      ttl:100,
+    }),
+    secret: "codersecret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+const environment = async () => {
+  try {
+    await mongoose.connect(MONGO_URL);
+    console.log("Base de datos conectada");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+environment();
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -35,14 +65,32 @@ app.engine("handlebars", handlebars.engine({runtimeOptions: {
 }));
 app.set('views','./views');
 app.set("view engine","handlebars");
-app.use(express.static("./public"));
+app.use(express.static("public", {
+  setHeaders: (res, path) => {
+    if (path.endsWith(".js")) {
+      res.setHeader("Content-Type", "text/javascript");
+    }
+  }
+}));
+
 
 const socketServer = new Server(httpServer)
 
-app.use("/api/products", productRouter);
+function auth(req,res,next){
+  if(req.session.user && req.session.admin){
+      return next()
+  }else{
+      res.send("Error")
+  }
+}
+
+
+app.use("/api/products",auth, productRouter);
 app.use("/api/realtimeproducts", realTimeRouter(socketServer));
-app.use("/api/carts", cartRouter);
-app.use("/", homeRouter);
+app.use("/api/carts",auth, cartRouter);
+app.use("/", loginRouter)
+app.use("/signup", signupRouter)
+app.use("/api/session/", sessionRouter);
 
 
 httpServer.on("error",(error)=>{

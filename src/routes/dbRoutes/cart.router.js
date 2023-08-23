@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Carts from "../../dao/dbManager/cartManager.js";
+import cartsModel from "../../dao/models/carts.js";
 import Products from "../../dao/dbManager/productManager.js"
 
 
@@ -25,11 +26,13 @@ router.get("/", async (req, res) => {
 router.get("/:cid", async (req, res) => {
     let {cid} = req.params;
     try{
-        let cart = await carts.getById(cid);
+        const cart = await cartsModel
+    .findById(cid)
+    .populate("products.id");
 
         
-        if(cart){
-            const productsWithDetails = [];
+       if(cart){
+             const productsWithDetails = [];
             for (const item of cart.products) {
                 const productDetails = await products.getById(item.id);
                 productsWithDetails.push({
@@ -37,7 +40,7 @@ router.get("/:cid", async (req, res) => {
                     quantity: item.quantity
                 });
             }
-
+            console.log(cart)
             
             res.render("cart",{cart:productsWithDetails, cid: cid });
         }else{

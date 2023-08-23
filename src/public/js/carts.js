@@ -59,3 +59,8 @@ async function emptyCart(url) {
   }
 }
 
+async function goBack() {
+   
+    history.back();
+}
+
