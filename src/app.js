@@ -82,6 +82,8 @@ const socketServer = new Server(httpServer)
 function auth(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
+  }else{
+    return res.status(401).json("error de autenticacion");
   }
 }
 
@@ -93,7 +95,6 @@ app.use("/api/carts",auth, cartRouter);
 app.use("/", loginRouter)
 app.use("/signup", signupRouter)
 app.use("/api/session/", sessionRouter);
-
 
 httpServer.on("error",(error)=>{
   console.log("Error:" + error)

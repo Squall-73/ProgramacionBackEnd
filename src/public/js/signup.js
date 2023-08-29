@@ -16,9 +16,15 @@ async function postSignup(first_name, last_name, age, username, password) {
       body: JSON.stringify(data),
     });
   
-    const result = await response.json();
+    const datos = await response.json();
+    if (datos.status === "OK") {
+      const cartId = datos.cartId;
+       setTimeout(()=>{
+         const redirectUrl = `http://localhost:8080/api/products/?cartId=${cartId}`;
+         window.location.replace(redirectUrl);
+        },200)
+    }
     
-    return result;
   }
   
   const signupForm = document.getElementById("signup-form");
@@ -32,10 +38,6 @@ async function postSignup(first_name, last_name, age, username, password) {
     const last_name = document.getElementById("last_name").value;
     const age = document.getElementById("age").value;
   
-    postSignup(first_name, last_name, age, username, password).then((datos) =>{
-      if (datos.status === "OK") {
-        const cartId = datos.cartId;
-    window.location.href = `http://localhost:8080/api/products/?cartId=${cartId}`;
-        
-  }});
+    postSignup(first_name, last_name, age, username, password);
+
   });

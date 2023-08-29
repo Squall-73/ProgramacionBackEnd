@@ -16,11 +16,14 @@ const loginForm = document.getElementById("login-form");
       });
     
       const data = await response.json();
-      console.log(data.status)
+
+
       if(data.status === "OK"){
+        const cartId = data.cartId;
         setTimeout(()=>{
-            window.location.href = `http://localhost:8080/api/products/?cartId=${cartId}`
-         },2000)
+          const redirectUrl = `http://localhost:8080/api/products/?cartId=${cartId}`;
+          window.location.replace(redirectUrl);
+         },200)
     }else{
         alert("Usuario no válido")
     }
