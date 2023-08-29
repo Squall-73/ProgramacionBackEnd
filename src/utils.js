@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import bcrypt from "bcrypt";
 
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
@@ -36,6 +37,13 @@ async function deleteFile(file){
     }
 }
 
+export const createHash = (password) =>
+  bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+
+export const isValidPassword = (savedPassword, password) => {
+  const valid=bcrypt.compareSync(password, savedPassword)
+  return valid;
+};
 
 
 export default {readFile, writeFile, deleteFile}

@@ -13,9 +13,9 @@ import methodOverride from 'method-override';
 import bodyParser from 'body-parser'; 
 import MongoStore from "connect-mongo"
 import session from "express-session";
-import sessionRouter from "./routes/dbRoutes/session.router.js"
-
-
+import sessionRouter from "./routes/dbRoutes/session.router.js";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 
 dotenv.config();
 const app = express();
@@ -26,6 +26,7 @@ const httpServer = app.listen(PORT, () => {
 const MONGO_URL = process.env.MONGO_URL
 
 const connection = mongoose.connect(MONGO_URL)
+initializePassport();
 app.use(
   session({
     store: MongoStore.create({
@@ -41,6 +42,8 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 const environment = async () => {
   try {
@@ -76,13 +79,12 @@ app.use(express.static("public", {
 
 const socketServer = new Server(httpServer)
 
-function auth(req,res,next){
-  if(req.session.user && req.session.admin){
-      return next()
-  }else{
-      res.send("Error")
+function auth(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
   }
 }
+
 
 
 app.use("/api/products",auth, productRouter);

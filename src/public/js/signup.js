@@ -17,6 +17,7 @@ async function postSignup(first_name, last_name, age, username, password) {
     });
   
     const result = await response.json();
+    
     return result;
   }
   
@@ -32,8 +33,9 @@ async function postSignup(first_name, last_name, age, username, password) {
     const age = document.getElementById("age").value;
   
     postSignup(first_name, last_name, age, username, password).then((datos) =>{
-      if (datos.respuesta === "ok") {
-        window.location.href = "http://localhost:8080";
-        console.log(datos)
+      if (datos.status === "OK") {
+        const cartId = datos.cartId;
+    window.location.href = `http://localhost:8080/api/products/?cartId=${cartId}`;
+        
   }});
   });
