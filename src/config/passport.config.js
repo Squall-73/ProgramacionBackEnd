@@ -1,6 +1,7 @@
 import passport from "passport";
 import local from "passport-local"
 import User from "../dao/models/users.js";
+import cartsModel from "../dao/models/carts.js";
 import { createHash, isValidPassword } from "../utils.js";
 import GithubStrategy from "passport-github2"
 import * as dotenv from "dotenv"
@@ -23,6 +24,8 @@ const intializePassport = async()=>{
                 if(userAccount){
                     return done(null,false,{message: "Tu usuario ya existe"})
                 }else{
+                    const newCart = await cartsModel.create({});
+                    const cartId = newCart._id;
                     const newUser = {
                         first_name,
                         last_name,
@@ -30,6 +33,8 @@ const intializePassport = async()=>{
                         user,
                         age,
                         password: createHash(password),
+                        role: "user",
+                        cart: cartId,
                     }
                     const result = await User.create(newUser)
                     return done(null,result)
@@ -67,15 +72,30 @@ const intializePassport = async()=>{
             console.log(profile)
            const user = await User.findOne({email: profile?.emails[0]?.value})
            if(!user){ 
+            const newCart = await cartsModel.create({});
+            const cartId = newCart._id;
+
+            function splitFullName(fullName) {
+                const lastIndex = fullName.lastIndexOf(" ");
+                const firstName = fullName.substring(0, lastIndex);
+                const lastName = fullName.substring(lastIndex + 1);
+                return [firstName, lastName];
+            }
+
+            const [firstName, lastName] = splitFullName(profile.displayName);
             const newUser = {
-                first_name: profile.displayName,
-                last_name: profile.displayName,
+                first_name: firstName,
+                last_name: lastName,
                 email: profile?.emails[0]?.value,
                 age:18,
                 user: profile.username,
-                password: crypto.randomUUID()
+                password: crypto.randomUUID(),
+                role: "user",
+                cart: cartId,
             }
+            console.log(newUser)
             const result = await User.create(newUser)
+
             done(null,result)
            }else{
             done(null,user)

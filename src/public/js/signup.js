@@ -5,6 +5,7 @@ async function postSignup(first_name, last_name, age, username, password) {
       age,
       email: username,
       password,
+
     };
   
     console.log("all  the data", data);
