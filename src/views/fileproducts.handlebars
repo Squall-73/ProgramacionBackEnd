@@ -46,9 +46,9 @@
       <p><b>Code:</b> {{code}} </p>
       <p><b>Stock:</b> {{stock}}</p>
       {{#if status}}
-      <form action="/api/carts/{{../cartId}}/product/{{_id}}" method="post">
-          <label for="quantity-{{_id}}">Cantidad:</label>
-          <input type="number" name="quantity" id="quantity-{{_id}}" value="1" min="1">
+      <form action="/api/carts/{{../cartId}}/product/{{id}}" method="post">
+          <label for="quantity-{{id}}">Cantidad:</label>
+          <input type="number" name="quantity" id="quantity-{{id}}" value="1" min="1">
           <button type="submit">Agregar al carrito</button>
         </form>
       {{else}}
@@ -58,18 +58,5 @@
   {{/each}}
 </div>
 
-<div>
-    <p>Página {{currentPage}} de {{totalPages}}</p>
-    {{#if response.hasNextPage}}
-    <p>Mostrando {{limit}} productos de un total de {{response.totalDocs}}</p>
-    {{else}}
-    <p>Mostrando {{lastPageItemCount}} productos de un total de {{response.totalDocs}}</p>
-    {{/if}}
-    {{#if response.hasPrevPage}}
-        <a href="?page={{response.prevPage}}&limit={{limit}}&filter={{filter}}&sort={{sort}}">Anterior</a>
-    {{/if}}
-    {{#if response.hasNextPage}}
-        <a href="?page={{response.nextPage}}&limit={{limit}}&filter={{filter}}&sort={{sort}}">Siguiente</a>
-    {{/if}}
-</div>
+
 

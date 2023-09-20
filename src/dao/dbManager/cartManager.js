@@ -17,7 +17,7 @@ export default class Carts {
         return respuesta;
     }
     
-    async update(id, data){
+    async saveProduct(id, data){
         const respuesta = cartsModel.findByIdAndUpdate(id, data);
         return respuesta;
     };

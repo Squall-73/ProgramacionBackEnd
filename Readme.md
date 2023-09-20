@@ -9,4 +9,8 @@ En esa vista tambien se puede selecciionar los filtros, limites y orden de los p
 
 Al seleccionar ver mi carrito se muestra el carrito en el estado actual y se puede eliminar un producto del carro o vaciar el carro completo.
 
-Desde postman se puede realizar un put con un arreglo de productos para que los agregue todos
+Al cambiar el config de MONGO a FILE se comienza a usar el file manager sistem el cual tiene ciertas limitaciones.
+
+Solo se puede agregar productos desde la vista de productos, no funciona la actualización de cantidades así como tampoco el remover de a un solo producto.Solo se permite vaciar el carro
+
+al agregar el carro creado con el usuario al carts.json dejo de funcionar el redirect del signup. no encontre forma de hacerlo funcionar.

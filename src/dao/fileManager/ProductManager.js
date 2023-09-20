@@ -1,13 +1,19 @@
 import utils from "../../utils.js";
 
-export class ProductManager {
+export default class ProductManager {
     products;
     lastId;
     constructor(path) {
         this.path=path;
         this.products = [];
     }
-    async addProduct(title, description, price, thumbnail, code, stock) {
+    async save(data) {
+        this.title= data.title;
+        this.description= data.description;
+        this.price= data.price;
+        this.tithumbnailtle= data.thumbnail;
+        this.code= data.code;
+        this.stock= data.stock;
         if (
             title==undefined ||
             description==undefined ||
@@ -51,7 +57,7 @@ export class ProductManager {
         }
         }
     }
-    async getProducts() {
+    async getAll() {
         try{
             let data = await utils.readFile(this.path);
             this.products=data;
@@ -61,7 +67,7 @@ export class ProductManager {
         }
     };
 
-    async getProductById(id) {
+    async getById(id) {
         try{
             let data = await utils.readFile(this.path);
             this.products= data?.length>0 ? data:[];
@@ -76,7 +82,7 @@ export class ProductManager {
         }
     }
 
-    async updateProduct(id, productData) {
+    async update(id, productData) {
         try{
             let products = await utils.readFile(this.path);
             this.products= products?.length>0 ? products:[];
@@ -96,7 +102,7 @@ export class ProductManager {
         }
     }
 
-    async deleteProduct(id){
+    async delete(id){
         try{
             let products = await utils.readFile(this.path);
             this.products= products?.length>0 ? products:[];
@@ -116,7 +122,5 @@ export class ProductManager {
     }
 }
 
-export default {
-    ProductManager,
-};
+
 

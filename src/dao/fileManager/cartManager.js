@@ -1,37 +1,34 @@
 import utils from "../../utils.js";
 
-export class CartManager {
+export default class CartManager {
     carts;
     lastId;
     constructor(path) {
         this.path=path;
         this.carts = [];
     }
-    async addCart(){
+    async save(cart){
         try{
             let data = await utils.readFile(this.path);
             this.carts= data?.length>0 ? data : [];
-            if(this.carts.length>0){
-                CartManager.lastId=this.carts[this.carts.length-1].id;
-            }else{CartManager.lastId=0}
         }catch(error){
             console.log(error)
         }
-        CartManager.lastId++;
-        const cart ={
-            id:CartManager.lastId,
-            products:[]
-        }
-        this.carts.push(cart);
+        const cid= cart.id
+        let  cartIndex = this.carts.findIndex((cart) => cart.id === cid)
+        if(cartIndex !==-1){
+            this.carts[cartIndex]=cart;
+        }else{this.carts.push(cart);}
+        
         try{
             await utils.writeFile(this.path, this.carts);
-            return true;
+            return cart.id;
         }catch(error){
             console.log(error)
         }
     }
 
-    async getCartById(id) {
+    async getById(id) {
         try{
             let data = await utils.readFile(this.path);
             this.carts= data?.length>0 ? data:[];
@@ -46,7 +43,7 @@ export class CartManager {
         }
     }
     
-    async updateCart(cid, pid) {
+    async saveProduct(cid, pid) {
         try{
             let data = await utils.readFile(this.path);
             this.carts= data?.length>0 ? data:[];
@@ -68,9 +65,9 @@ export class CartManager {
             console.log(error)
         }
     }
+    
+
  }
 
-export default {
-    CartManager,
-};
+
 

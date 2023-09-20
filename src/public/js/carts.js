@@ -43,14 +43,14 @@ async function removeProductFromCart(url) {
 
 async function emptyCart(url) {
   try {
+   
       const response = await fetch(url, {
           method: 'DELETE'
       });
-
+      window.location.reload(); 
       if (response.ok) {
           const data = await response.json();
           
-          window.location.reload(); 
       } else {
           console.error('Error emptying cart');
       }

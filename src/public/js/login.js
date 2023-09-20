@@ -21,8 +21,7 @@ const loginForm = document.getElementById("login-form");
       if(data.status === "OK"){
         const cartId = data.cartId;
         setTimeout(()=>{
-          const redirectUrl = `http://localhost:8080/api/products/?cartId=${cartId}`;
-          window.location.replace(redirectUrl);
+           window.location.href = `http://localhost:8080/api/products/?cartId=${cartId}`
          },200)
     }else{
         alert("Usuario no válido")

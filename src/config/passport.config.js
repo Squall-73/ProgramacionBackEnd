@@ -6,6 +6,7 @@ import { createHash, isValidPassword } from "../utils.js";
 import GithubStrategy from "passport-github2"
 import * as dotenv from "dotenv"
 import crypto from "crypto"
+import { addCartToFile } from "../controller/cart.controller.js";
 
 dotenv.config()
 
@@ -26,6 +27,11 @@ const intializePassport = async()=>{
                 }else{
                     const newCart = await cartsModel.create({});
                     const cartId = newCart._id;
+                    const cartData = {
+                        id: cartId, 
+                        products: [],
+                      };
+                    await addCartToFile(cartData);
                     const newUser = {
                         first_name,
                         last_name,
@@ -36,6 +42,8 @@ const intializePassport = async()=>{
                         role: "user",
                         cart: cartId,
                     }
+                    
+
                     const result = await User.create(newUser)
                     return done(null,result)
                 }
@@ -53,6 +61,7 @@ const intializePassport = async()=>{
                 }
                 const valid = isValidPassword(user.password,password)
                 if(valid){
+
                         return done(null,user)
                     }else{
                         return done(null,false,{message: "Contraseña incorrecta"})
@@ -93,6 +102,7 @@ const intializePassport = async()=>{
                 role: "user",
                 cart: cartId,
             }
+
             console.log(newUser)
             const result = await User.create(newUser)
 
