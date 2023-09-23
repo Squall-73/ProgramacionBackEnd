@@ -27,11 +27,11 @@ const intializePassport = async()=>{
                 }else{
                     const newCart = await cartsModel.create({});
                     const cartId = newCart._id;
-                    const cartData = {
+                    /*const cartData = {
                         id: cartId, 
                         products: [],
                       };
-                    await addCartToFile(cartData);
+                    await addCartToFile(cartData);*/
                     const newUser = {
                         first_name,
                         last_name,
@@ -51,7 +51,7 @@ const intializePassport = async()=>{
                 return done(err)
             }
         }))
-
+    
     passport.use("login",new LocalStrategy (async(email,password,done)=>{
             try{
                 const user = await User.findOne({email: email})
@@ -99,10 +99,11 @@ const intializePassport = async()=>{
                 age:18,
                 user: profile.username,
                 password: crypto.randomUUID(),
-                role: "user",
+                role: "admin",
                 cart: cartId,
+                
             }
-
+            req.session.admin=true
             console.log(newUser)
             const result = await User.create(newUser)
 

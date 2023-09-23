@@ -20,21 +20,22 @@
     <a href="?filter=BEBI">Bebidas</a><br>
     <a href="?filter=ALIM">Alimentos</a><br>
     <a href="?filter=LIMP">Limpieza</a><br>
-
-    <br>
-    <b><a href="/api/carts/{{cartId}}">Ver mi carrito</a></b>
     <br>
     <b><a href="/api/session/current">Ver usuario</a></b>
     <br>
+    <br>
     <button id="logout-button">Cerrar sesión</button>
-    
+    <br>
+    <br>
+</div>
+
+<div>
+<b><a href="/api/session/newProduct">Agregar producto</a></b>
 </div>
 
 <div>
   <h1>Lista de productos</h1>
-    {{#if addedToCart}}
-      <div style="color: green;">Producto agregado al carrito</div>
-    {{/if}}
+   
  {{#each products}}
 
       <p><b>Title:</b> {{title}}</p>
@@ -45,17 +46,34 @@
       {{/if}}
       <p><b>Code:</b> {{code}} </p>
       <p><b>Stock:</b> {{stock}}</p>
- 
       {{#if status}}
-      <form action="/api/carts/{{../cartId}}/product/{{_id}}" method="post">
-          <label for="quantity-{{_id}}">Cantidad:</label>
-          <input type="number" name="quantity" id="quantity-{{_id}}" value="1" min="1">
-          <button type="submit">Agregar al carrito</button>
-        </form>
       {{else}}
       <p style="color: red;"><b>Producto discontinuado</b></p>
       {{/if}}
-      <hr></hr>
+      <form id="update-form">
+        <label for="title-{{_id}}">Title:</label>
+        <input type="text" name="title" id="title-{{_id}}" value="{{title}}">
+        <br>
+        <label for="description-{{_id}}">Description:</label>
+        <input type="text" name="description" id="description-{{_id}}" value="{{description}}">
+        <br>
+        <label for="price-{{_id}}">Price:</label>
+        <input type="number" name="price" id="price-{{_id}}" value="{{price}}">
+        <br>
+        <label for="thumbnail-{{_id}}">Thumbnail:</label>
+        <input type="text" name="thumbnail" id="thumbnail-{{_id}}" value="{{thumbnail}}">
+        <br>
+        <label for="stock-{{_id}}">Stock:</label>
+        <input type="number" name="stock" id="stock-{{_id}}" value="{{stock}}">
+        <br>
+        <button type="button" onclick="updateProduct('{{_id}}')">Actualizar</button>
+        {{#if status}}
+        <button type="button" onclick="deleteProduct('{{_id}}')">Eliminar</button>
+        {{else}}
+        <button type="button" onclick="activateProduct('{{_id}}')">Reactivar</button>
+        {{/if}}
+      </form>
+            <hr></hr>
   {{/each}}
 </div>
 

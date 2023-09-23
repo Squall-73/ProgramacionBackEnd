@@ -1,0 +1,25 @@
+<div>
+    <h2>Agregar Producto:</h2>
+
+<form id="addProduct" action="/api/products" method="POST">
+        <label for="title-{{_id}}">Title:</label>
+        <input type="text" name="title" id="title-{{_id}}">
+        <br>
+        <label for="description-{{_id}}">Description:</label>
+        <input type="text" name="description" id="description-{{_id}}">
+        <br>
+        <label for="price-{{_id}}">Price:</label>
+        <input type="number" name="price" id="price-{{_id}}">
+        <br>
+        <label for="thumbnail-{{_id}}">Thumbnail:</label>
+        <input type="text" name="thumbnail" id="thumbnail-{{_id}}">
+        <br>
+        <label for="stock-{{_id}}">Stock:</label>
+        <input type="number" name="stock" id="stock-{{_id}}">
+        <br>
+        <label for="code-{{_id}}">Code:</label>
+        <input type="text" name="code" id="code-{{_id}}">
+        <br>
+        <button type="submit">Agregar producto</button>
+</form>
+</div>

@@ -1,8 +1,7 @@
 import { Router } from "express";
 import cartsModel from "../../dao/models/carts.js";
 import passport from "passport";
-
-
+import UserDTO from "../../dao/DTOs/user.dto.js";
 
 
 const router = Router();
@@ -16,11 +15,12 @@ router.post("/login",passport.authenticate("login", {failureRedirect: "/failLogi
       last_name: req.user.last_name,
       email: req.user.email,
       age: req.user.age,
-      cart: req.user.cart
+      cart: req.user.cart,
+      role: req.user.role
     };
 
-    req.session.admin = true;
-
+    if(req.user.role ==="admin"){req.session.admin = true};
+   
     const cartId = req.user.cart._id;
     res.status(200).json({
       status: "OK",
@@ -41,6 +41,7 @@ router.post("/login",passport.authenticate("login", {failureRedirect: "/failLogi
         email: req.user.email,
         age: req.user.age,
         cart: req.user.cart,
+        role: req.user.role,
       };
   
       console.log(req.session.user);
@@ -76,7 +77,7 @@ router.get("/githubcallback",passport.authenticate("github",{failureRedirect:"/"
 async(req,res)=>{
     const newCart = await cartsModel.create({});
     const cartId = newCart.id;
-    req.session.user = req.user;
+    if(req.user.role ==="admin"){req.session.admin = true}else{req.session.admin=false};
     req.user.cart = cartId;
     req.login(req.user, async (err) => {
       if (err) {
@@ -105,9 +106,10 @@ router.post("/logout",async  (req, res) => {
 router.get("/current", async (req, res) => {
   if (req.isAuthenticated()) {
     const user = req.user;
+    let userDTO = new UserDTO(user);
     return res.render("current", {
       title: "User",
-      user: user
+      user: userDTO
     });
   } else {
     return res.render("error", {
@@ -116,6 +118,13 @@ router.get("/current", async (req, res) => {
     });
   }
 });
+
+router.get("/newProduct",async(req, res)=>{
+  if (req.isAuthenticated()) {
+    res.render("newProduct")
+  }
+})
+
 
 
 export default router;

@@ -1,0 +1,11 @@
+    <h1>Producto Agregado Correctamente</h1>
+     <p><b>Title:</b> {{productData.title}}</p>
+      <p><b>Description:</b> {{productData.description}}</p>
+      <p><b>Price:</b> {{productData.price}}</p>
+      {{#if productData.thumbnail.length}}
+      <p><b>Thumbnail:</b> {{productData.thumbnail}}</p>
+      {{/if}}
+      <p><b>Code:</b> {{productData.code}} </p>
+      <p><b>Stock:</b> {{productData.stock}}</p>
+    <br>
+    <a href="/api/products">Regresar</a>

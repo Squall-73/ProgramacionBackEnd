@@ -96,6 +96,7 @@ app.use("/", loginRouter)
 app.use("/signup", signupRouter)
 app.use("/api/session/", sessionRouter);
 
+
 httpServer.on("error",(error)=>{
   console.log("Error:" + error)
 })
