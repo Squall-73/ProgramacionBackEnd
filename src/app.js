@@ -16,6 +16,7 @@ import session from "express-session";
 import sessionRouter from "./routes/dbRoutes/session.router.js";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
+import ticketRouter from "./routes/dbRoutes/ticket.router.js";
 
 dotenv.config();
 const app = express();
@@ -95,6 +96,7 @@ app.use("/api/carts",auth, cartRouter);
 app.use("/", loginRouter)
 app.use("/signup", signupRouter)
 app.use("/api/session/", sessionRouter);
+app.use("/api/tickets/", ticketRouter)
 
 
 httpServer.on("error",(error)=>{

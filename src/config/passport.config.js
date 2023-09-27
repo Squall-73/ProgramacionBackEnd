@@ -6,7 +6,7 @@ import { createHash, isValidPassword } from "../utils.js";
 import GithubStrategy from "passport-github2"
 import * as dotenv from "dotenv"
 import crypto from "crypto"
-import { addCartToFile } from "../controller/cart.controller.js";
+//import { addCartToFile } from "../controller/cart.controller.js";
 
 dotenv.config()
 
@@ -103,7 +103,7 @@ const intializePassport = async()=>{
                 cart: cartId,
                 
             }
-            req.session.admin=true
+            
             console.log(newUser)
             const result = await User.create(newUser)
 

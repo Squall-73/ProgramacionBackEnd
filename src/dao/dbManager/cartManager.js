@@ -31,5 +31,6 @@ export default class Carts {
     const updatedProducts = cart.products.filter(item => item.id !== pid);
     cart.products = updatedProducts;
     return cart;
+    
 }
 }

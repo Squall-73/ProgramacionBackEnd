@@ -1,0 +1,20 @@
+<div>
+    <h1>Confirmación de compra</h1>
+
+    {{#each detailProducts}}
+    <p><b>Producto:</b> {{{product.title}}}</p>
+    <p><b>Descripción:</b> {{{product.description}}}</p>
+    <p><b>Precio individual:</b> {{{product.price}}}</p>
+    <p><b>Cantidad:</b> {{{quantity}}}</p>
+    <p><b>Costo total del producto:</b> {{{cost}}}</p>
+    <hr></hr>
+    {{/each}}
+
+    <button id="confirmButton"
+        data-user="{{user}}"
+        data-cartid="{{cart}}"
+        data-products="{{products}}"
+        data-noStockProduct="{{noStockProduct}}">Confirmar Compra</button>
+   
+
+</div>

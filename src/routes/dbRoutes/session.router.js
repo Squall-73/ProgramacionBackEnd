@@ -2,6 +2,8 @@ import { Router } from "express";
 import cartsModel from "../../dao/models/carts.js";
 import passport from "passport";
 import UserDTO from "../../dao/DTOs/user.dto.js";
+import { cartDAO, productDAO } from "../../dao/index.js";
+
 
 
 const router = Router();
@@ -125,6 +127,50 @@ router.get("/newProduct",async(req, res)=>{
   }
 })
 
+router.get("/purchase",async(req,res)=>{
+  const user=req.user;
+  const userId=user.id
+  const cartId = req.user.cart
+  const cart = await cartDAO.getById(cartId)
+  const detailProducts = []
+  const noStock = []
 
+ 
+  for(let i=0;i<cart.products.length;i++){
+    const productID=cart.products[i].id
+    const detail = await productDAO.getById(productID)
+    const quantity= cart.products[i].quantity
+    const cost= detail.price*quantity
+    if(detail.stock>=quantity){
+      detailProducts.push({
+      product: detail,
+      quantity: quantity,
+      cost:cost,
+    });
+    }else{
+      noStock.push({
+        product: detail,
+        quantity: quantity
+      })
+    }
+  
+    
+  }
+
+  
+  if (req.isAuthenticated() && detailProducts.length>0) {
+    res.render("purchase", {
+      user: userId,
+      cart: cartId,
+      detailProducts: detailProducts,
+      products: JSON.stringify(detailProducts),
+      noStockProduct: JSON.stringify(noStock)
+    })
+  }else{
+    res.render("error", {
+      message: "No hay suficiente stock para los productos en su carrito.",
+    });
+  }
+})
 
 export default router;

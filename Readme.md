@@ -9,8 +9,8 @@ En esa vista tambien se puede selecciionar los filtros, limites y orden de los p
 
 Al seleccionar ver mi carrito se muestra el carrito en el estado actual y se puede eliminar un producto del carro o vaciar el carro completo.
 
-Al cambiar el config de MONGO a FILE se comienza a usar el file manager sistem el cual tiene ciertas limitaciones.
+Por el momento al loguearse con github se crea una cuenta de tipo ADMIN la cual permite agregar modificar o quitar productos
 
-Solo se puede agregar productos desde la vista de productos, no funciona la actualización de cantidades así como tampoco el remover de a un solo producto.Solo se permite vaciar el carro
+Al usar el formulario de registro se crea una cuenta de usuario la cual permite comprar productos.
 
-al agregar el carro creado con el usuario al carts.json dejo de funcionar el redirect del signup. no encontre forma de hacerlo funcionar.
+una vez finallizada la compra se muestra el ticket de compra en una nueva ventana y en la ventana original se muestra el carro con los productos no comprados por falta de stock
