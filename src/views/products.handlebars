@@ -36,7 +36,7 @@
       <div style="color: green;">Producto agregado al carrito</div>
     {{/if}}
  {{#each products}}
-
+    {{#if stock}}
       <p><b>Title:</b> {{title}}</p>
       <p><b>Description:</b> {{description}}</p>
       <p><b>Price:</b> {{price}}</p>
@@ -56,6 +56,7 @@
       <p style="color: red;"><b>Producto discontinuado</b></p>
       {{/if}}
       <hr></hr>
+    {{/if}}
   {{/each}}
 </div>
 

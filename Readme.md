@@ -13,4 +13,6 @@ Por el momento al loguearse con github se crea una cuenta de tipo ADMIN la cual 
 
 Al usar el formulario de registro se crea una cuenta de usuario la cual permite comprar productos.
 
-una vez finallizada la compra se muestra el ticket de compra en una nueva ventana y en la ventana original se muestra el carro con los productos no comprados por falta de stock
+Una vez finallizada la compra se muestra el ticket de compra en una nueva ventana y en la ventana original se muestra el carro con los productos no comprados por falta de stock
+
+En el caso que un producto no tenga stock, los usuarios comunes no podran verlos
