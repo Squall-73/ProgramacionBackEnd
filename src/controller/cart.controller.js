@@ -229,16 +229,13 @@ async function purchase(req,res){
         if(amount>0){await ticketManager.save(data);
         
         await emptyCart(cartId);
+        console.log(noStockProduct.length)
         if(noStockProduct.length){
         for (let i = 0; i < noStockProduct.length; i++) {
             const productID = noStockProduct[i].product._id;
             const quantity = noStockProduct[i].quantity;
             cart.products.push({id:productID,quantity:parseInt(quantity)})
-        }}else{
-            const productID = noStockProduct.product._id;
-            const quantity = noStockProduct.quantity;
-            cart.products.push({id:productID,quantity:parseInt(quantity)})
-        }
+        }}
         await cartDAO.save(cart)
         const ticket = await ticketManager.getByCode(code)
        
