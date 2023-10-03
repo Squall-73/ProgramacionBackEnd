@@ -17,6 +17,7 @@ import sessionRouter from "./routes/dbRoutes/session.router.js";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 import ticketRouter from "./routes/dbRoutes/ticket.router.js";
+import mockingRouter from "./routes/mocking.router.js"
 
 dotenv.config();
 const app = express();
@@ -97,6 +98,7 @@ app.use("/", loginRouter)
 app.use("/signup", signupRouter)
 app.use("/api/session/", sessionRouter);
 app.use("/api/tickets/", ticketRouter)
+app.use("/api/testing",mockingRouter)
 
 
 httpServer.on("error",(error)=>{
