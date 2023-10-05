@@ -1,6 +1,6 @@
 import express from "express";
 import handlebars from "express-handlebars";
-import __dirname from "./utils.js"
+import __dirname from "./utils/utils.js"
 import productRouter from "./routes/product.router.js";
 import cartRouter from "./routes/cart.router.js";
 import realTimeRouter from "./routes/fileRoutes/realTimeProducts.router.js";

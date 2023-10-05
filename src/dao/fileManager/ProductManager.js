@@ -1,4 +1,6 @@
-import utils from "../../utils.js";
+import utils from "../../utils/utils.js";
+import { CustomError } from "../../utils/errorHandler/customError.js";
+import { errorDictionary } from "../../utils/errorHandler/errorDictionary.js";
 
 export default class ProductManager {
     products;
@@ -8,6 +10,7 @@ export default class ProductManager {
         this.products = [];
     }
     async save(data) {
+        try{
         this.title= data.title;
         this.description= data.description;
         this.price= data.price;
@@ -20,18 +23,24 @@ export default class ProductManager {
             price==undefined ||
             code==undefined ||
             stock==undefined
-        )   {
-            throw new Error("Every field must be completed");
+        ){
+            throw new CustomError(errorDictionary.MISSING_DATA, 400);
+
         }
         
-        try{
+        
             let data = await utils.readFile(this.path);
             this.products= data?.length>0 ? data : [];
+            if(data){
             if(this.products.length>0){
             ProductManager.lastId=this.products[this.products.length-1].id;
             }else{ProductManager.lastId=0}
+        }else{
+            throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
+        }
         }catch(error){
-            console.log(error)
+            console.error(error.message);
+            console.error(`Código de error: ${error.errorCode}`);
         }
         
         if(this.products.some(product => product.code === code)) {
@@ -61,10 +70,16 @@ export default class ProductManager {
         try{
             let data = await utils.readFile(this.path);
             this.products=data;
-            return data?.length > 0 ? this.products : "There are no products registered";
-        }catch(error){
-            console.log(error)
-        }
+            if(data){
+                return this.products
+            }else{
+                throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
+            } 
+        }catch (error) {
+              console.error(error.message);
+              console.error(`Código de error: ${error.errorCode}`);
+            }
+            
     };
 
     async getById(id) {
@@ -75,12 +90,14 @@ export default class ProductManager {
             if(prod){
                 return prod;
             }else{
-                throw new Error("The requested product does not exist");
+                throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
+            } 
+        }catch (error) {
+              console.error(error.message);
+              console.error(`Código de error: ${error.errorCode}`);
             }
-        }catch(error){
-            console.log(error)
-        }
-    }
+            
+    };
 
     async update(id, productData) {
         try{
@@ -95,12 +112,14 @@ export default class ProductManager {
                 await utils.writeFile(this.path, this.products);
 
             }else{
-                throw new Error("The requested product does not exist");
+                throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
+            } 
+        }catch (error) {
+              console.error(error.message);
+              console.error(`Código de error: ${error.errorCode}`);
             }
-        }catch(error){
-            console.log(error)
-        }
-    }
+            
+    };
 
     async delete(id){
         try{
@@ -112,14 +131,15 @@ export default class ProductManager {
                 this.products[productIndex].status=false;
                 await utils.writeFile(this.path, this.products);
                 return "Produtc deleted succesfully"
-                }
-                else{
-                throw new Error("The requested product does not exist");
+            }else{
+                throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
+            } 
+        }catch (error) {
+              console.error(error.message);
+              console.error(`Código de error: ${error.errorCode}`);
             }
-        }catch(error){
-            console.log(error)
-        }
-    }
+            
+    };
 }
 
 

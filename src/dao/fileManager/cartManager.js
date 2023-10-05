@@ -1,4 +1,6 @@
-import utils from "../../utils.js";
+import utils from "../../utils/utils.js";
+import { CustomError } from "../../utils/errorHandler/customError.js";
+import { errorDictionary } from "../../utils/errorHandler/errorDictionary.js";
 
 export default class CartManager {
     carts;
@@ -11,20 +13,19 @@ export default class CartManager {
         try{
             let data = await utils.readFile(this.path);
             this.carts= data?.length>0 ? data : [];
-        }catch(error){
-            console.log(error)
-        }
-        const cid= cart.id
-        let  cartIndex = this.carts.findIndex((cart) => cart.id === cid)
-        if(cartIndex !==-1){
-            this.carts[cartIndex]=cart;
-        }else{this.carts.push(cart);}
-        
-        try{
+            const cid= cart.id
+            let  cartIndex = this.carts.findIndex((cart) => cart.id === cid)
+            if(cartIndex !==-1){
+                this.carts[cartIndex]=cart;
+            }else{this.carts.push(cart);}
             await utils.writeFile(this.path, this.carts);
-            return cart.id;
+            let updatedData = await utils.readFile(this.path);
+            if(data===updatedData){
+                throw new CustomError(errorDictionary.CART_NOT_UPDATED, 400);
+            }else{return cart.id;}
         }catch(error){
-            console.log(error)
+            console.error(error.message);
+            console.error(`Código de error: ${error.errorCode}`);
         }
     }
 
@@ -36,10 +37,11 @@ export default class CartManager {
             if(cart){
                 return cart;
             }else{
-                throw new Error("The requested cart does not exist");
+                throw new CustomError(errorDictionary.CARTS_NOT_FOUND, 404);
             }
         }catch(error){
-            console.log(error)
+            console.error(error.message);
+            console.error(`Código de error: ${error.errorCode}`);
         }
     }
     
@@ -59,10 +61,11 @@ export default class CartManager {
                 await utils.writeFile(this.path, this.carts);
                 return cart;
             }else{
-                throw new Error("The requested cart does not exist");
+                throw new CustomError(errorDictionary.CARTS_NOT_FOUND, 404);
             }
         }catch(error){
-            console.log(error)
+            console.error(error.message);
+            console.error(`Código de error: ${error.errorCode}`);
         }
     }
     

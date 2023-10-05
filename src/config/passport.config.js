@@ -2,11 +2,13 @@ import passport from "passport";
 import local from "passport-local"
 import User from "../dao/models/users.js";
 import cartsModel from "../dao/models/carts.js";
-import { createHash, isValidPassword } from "../utils.js";
+import { createHash, isValidPassword } from "../utils/utils.js";
 import GithubStrategy from "passport-github2"
 import * as dotenv from "dotenv"
 import crypto from "crypto"
 //import { addCartToFile } from "../controller/cart.controller.js";
+import { CustomError } from "../utils/errorHandler/customError.js";
+import { errorDictionary } from "../utils/errorHandler/errorDictionary.js";
 
 dotenv.config()
 
@@ -23,7 +25,7 @@ const intializePassport = async()=>{
             try{
                 const userAccount = await User.findOne({email: email})
                 if(userAccount){
-                    return done(null,false,{message: "Tu usuario ya existe"})
+                    throw new CustomError(errorDictionary.USER_ALREADY_EXIST, 409);
                 }else{
                     const newCart = await cartsModel.create({});
                     const cartId = newCart._id;
@@ -48,7 +50,8 @@ const intializePassport = async()=>{
                     return done(null,result)
                 }
             }catch(err){
-                return done(err)
+                console.error(err.message);
+                console.error(`Código de error: ${err.errorCode}`);
             }
         }))
     
@@ -57,18 +60,19 @@ const intializePassport = async()=>{
                 const user = await User.findOne({email: email})
                              
                 if(!user){
-                    return done(null,false,{message: "Tu usuario no existe"})
+                    throw new CustomError(errorDictionary.USER_NOT_EXIST, 409);
                 }
                 const valid = isValidPassword(user.password,password)
                 if(valid){
 
                         return done(null,user)
                     }else{
-                        return done(null,false,{message: "Contraseña incorrecta"})
+                        throw new CustomError(errorDictionary.WRONG_PASSWORD, 401);
                     }
                 
             }catch(err){
-                return done(err)
+                console.error(err.message);
+                console.error(`Código de error: ${err.errorCode}`);
             }
         }))
 

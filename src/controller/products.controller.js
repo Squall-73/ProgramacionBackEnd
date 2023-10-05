@@ -1,5 +1,7 @@
 import { productDAO } from "../dao/index.js";
 import passport from "passport";
+import { CustomError } from "../utils/errorHandler/customError.js";
+import { errorDictionary } from "../utils/errorHandler/errorDictionary.js";
 
 async function getAll(req, res){
     const {limit, page, filter,sort, cartId, addedToCart} = req.query;
@@ -23,6 +25,7 @@ async function getAll(req, res){
         let response = await productDAO.getAll(options, filter);
         const lastPageItemCount = response.totalDocs % perPage;  
         const added = addedToCart==='true'
+        if(response){
         if(response.docs){
        if(isAdmin==="admin"){
         res.render("productsAdmin",{response:response,
@@ -59,8 +62,12 @@ async function getAll(req, res){
                 cartId:cartId,
                 addedToCart: added,})
         }
+        }else{
+            throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
+        }    
     }catch(error){
-        console.log(error)
+        console.error(error.message);
+        console.error(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -71,10 +78,11 @@ async function getById(req, res){
         if(product){
             res.render("productById",{message: "success",product: Object.assign({}, product) });
         }else{
-        res.status(404).json({message:"The product does not exists" });
+            throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
         }
     }catch(error){
-        console.log(error)
+        console.error(error.message);
+        console.error(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -92,10 +100,11 @@ async function save(req,res){
 
             res.render('productAdded', { productData: newProduct });
         }else{
-            res.status(409).json({message:"The product code already exists" });
+            throw new CustomError(errorDictionary.PRODUCT_ALREADY_EXIST, 409);
         }
     }catch(error){
-        console.log(error)
+        console.error(error.message);
+        console.error(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -108,10 +117,11 @@ async function update(req,res){
             let updatedProduct= await productDAO.update(pid,{title, description, price, thumbnail, code, stock})
             res.json({message:"Product updated", data: updatedProduct});
         }else{
-            res.status(404).json({message:"The product does not exists"});
+            throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
         }
     }catch(error){
-        console.log(error)
+        console.error(error.message);
+        console.error(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -124,10 +134,11 @@ async function deleteProduct(req,res){
             await product.save();
             res.json({message:"Product deleted", data: product});
         }else{
-            res.status(404).json({message:"The product does not exists"});
+            throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
         }
     }catch(error){
-        console.log(error)
+        console.error(error.message);
+        console.error(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -140,10 +151,11 @@ async function activateProduct(req,res){
             await product.save();
             res.json({message:"Product activated", data: product});
         }else{
-            res.status(404).json({message:"The product does not exists"});
+            throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
         }
     }catch(error){
-        console.log(error)
+        console.error(error.message);
+        console.error(`Código de error: ${error.errorCode}`);
     }
 }
 

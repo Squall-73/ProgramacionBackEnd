@@ -1,17 +1,21 @@
 import productsModel from "../models/products.js";
 import mongoose from "mongoose";
+import { errorDictionary } from "../../utils/errorHandler/errorDictionary.js";
+import { CustomError } from "../../utils/errorHandler/customError.js";
 
 export default class Products {
     async getAll(options, filter){
         try{
             const filterQuery = filter ? { code: new RegExp(`^${filter}[0-9]{4}$`, 'i') } : {};
             const response= await productsModel.paginate(filterQuery,options);
-            
+            if(response){
             return response;
-
+            }else{
+                throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
+            }
         }catch(error){
-            console.log(error);
-            throw new Error("error fetching products")
+            console.error(error.message);
+            console.error(`Código de error: ${error.errorCode}`);          
         }
     
     }
