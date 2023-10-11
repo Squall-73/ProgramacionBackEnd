@@ -16,3 +16,5 @@ Al usar el formulario de registro se crea una cuenta de usuario la cual permite 
 Una vez finallizada la compra se muestra el ticket de compra en una nueva ventana y en la ventana original se muestra el carro con los productos no comprados por falta de stock
 
 En el caso que un producto no tenga stock, los usuarios comunes no podran verlos
+
+Se agrego a la ruta http://localhost:8080/api/session/loggerTest un listado de los diferentes mensajes del logger
