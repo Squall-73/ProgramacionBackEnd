@@ -24,8 +24,8 @@ export default class CartManager {
                 throw new CustomError(errorDictionary.CART_NOT_UPDATED, 400);
             }else{return cart.id;}
         }catch(error){
-            console.error(error.message);
-            console.error(`Código de error: ${error.errorCode}`);
+            req.logger.warning(error.message);
+            req.logger.warning(`Código de error: ${error.errorCode}`);
         }
     }
 
@@ -40,8 +40,8 @@ export default class CartManager {
                 throw new CustomError(errorDictionary.CARTS_NOT_FOUND, 404);
             }
         }catch(error){
-            console.error(error.message);
-            console.error(`Código de error: ${error.errorCode}`);
+            req.logger.warning(error.message);
+            req.logger.warning(`Código de error: ${error.errorCode}`);
         }
     }
     
@@ -64,8 +64,8 @@ export default class CartManager {
                 throw new CustomError(errorDictionary.CARTS_NOT_FOUND, 404);
             }
         }catch(error){
-            console.error(error.message);
-            console.error(`Código de error: ${error.errorCode}`);
+            req.logger.warning(error.message);
+            req.logger.warning(`Código de error: ${error.errorCode}`);
         }
     }
     

@@ -39,8 +39,8 @@ export default class ProductManager {
             throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
         }
         }catch(error){
-            console.error(error.message);
-            console.error(`Código de error: ${error.errorCode}`);
+            req.logger.warning(error.message);
+            req.logger.warning(`Código de error: ${error.errorCode}`);
         }
         
         if(this.products.some(product => product.code === code)) {
@@ -62,7 +62,7 @@ export default class ProductManager {
             await utils.writeFile(this.path, this.products);
             return true;
         }catch(error){
-            console.log(error)
+            req.logger.info(error)
         }
         }
     }
@@ -76,8 +76,8 @@ export default class ProductManager {
                 throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
             } 
         }catch (error) {
-              console.error(error.message);
-              console.error(`Código de error: ${error.errorCode}`);
+            req.logger.warning(error.message);
+            req.logger.warning(`Código de error: ${error.errorCode}`);
             }
             
     };
@@ -93,8 +93,8 @@ export default class ProductManager {
                 throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
             } 
         }catch (error) {
-              console.error(error.message);
-              console.error(`Código de error: ${error.errorCode}`);
+            req.logger.warning(error.message);
+            req.logger.warning(`Código de error: ${error.errorCode}`);
             }
             
     };
@@ -115,8 +115,8 @@ export default class ProductManager {
                 throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
             } 
         }catch (error) {
-              console.error(error.message);
-              console.error(`Código de error: ${error.errorCode}`);
+            req.logger.warning(error.message);
+            req.logger.warning(`Código de error: ${error.errorCode}`);
             }
             
     };
@@ -135,8 +135,8 @@ export default class ProductManager {
                 throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
             } 
         }catch (error) {
-              console.error(error.message);
-              console.error(`Código de error: ${error.errorCode}`);
+            req.logger.warning(error.message);
+            req.logger.warning(`Código de error: ${error.errorCode}`);
             }
             
     };

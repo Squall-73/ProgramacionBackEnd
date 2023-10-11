@@ -25,8 +25,8 @@ async function getAll(req, res){
         }
 
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.error(error.message);
+        req.logger.error(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -50,8 +50,8 @@ async function getById(req, res){
             throw new CustomError(errorDictionary.CARTS_NOT_FOUND, 404);
         }
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -64,8 +64,8 @@ async function save(req,res){
             throw new CustomError(errorDictionary.CANT_CREATE_CART, 400);
         }
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -102,8 +102,8 @@ async function saveProduct(req,res){
             throw new CustomError(errorDictionary.CARTS_NOT_FOUND, 404);
         }
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 async function update(req,res){
@@ -135,8 +135,8 @@ async function update(req,res){
         throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
      }
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -154,8 +154,8 @@ async function deleteCart(req,res){
         }
         
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -173,8 +173,8 @@ async function deleteCart(req,res){
       return true;
       }
     } catch (error) {
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
       return false;
     }
   }
@@ -192,8 +192,8 @@ async function deleteCart(req,res){
         return res.json({message: "product deleted"})
       }
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -210,8 +210,8 @@ async function emptyCart(cid){
         }
         
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -275,8 +275,8 @@ async function purchase(req,res){
         }
         
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 export {getAll, getById, save, saveProduct, update, deleteCart,addCartToFile, removeProduct, purchase}

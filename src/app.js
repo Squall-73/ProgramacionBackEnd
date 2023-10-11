@@ -18,6 +18,7 @@ import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 import ticketRouter from "./routes/dbRoutes/ticket.router.js";
 import mockingRouter from "./routes/mocking.router.js"
+import { addLogger } from "./utils/logger/logger.js";
 
 dotenv.config();
 const app = express();
@@ -46,6 +47,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(addLogger);
 
 const environment = async () => {
   try {

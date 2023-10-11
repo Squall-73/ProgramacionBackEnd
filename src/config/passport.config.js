@@ -50,8 +50,9 @@ const intializePassport = async()=>{
                     return done(null,result)
                 }
             }catch(err){
-                console.error(err.message);
-                console.error(`Código de error: ${err.errorCode}`);
+                req.logger.warning(err.message);
+                req.logger.warning(`Código de error: ${err.errorCode}`);
+                
             }
         }))
     
@@ -71,8 +72,8 @@ const intializePassport = async()=>{
                     }
                 
             }catch(err){
-                console.error(err.message);
-                console.error(`Código de error: ${err.errorCode}`);
+                req.logger.warning(err.message);
+                req.logger.warning(`Código de error: ${err.errorCode}`);
             }
         }))
 

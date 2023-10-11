@@ -66,8 +66,8 @@ async function getAll(req, res){
             throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
         }    
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -81,8 +81,8 @@ async function getById(req, res){
             throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
         }
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -103,8 +103,8 @@ async function save(req,res){
             throw new CustomError(errorDictionary.PRODUCT_ALREADY_EXIST, 409);
         }
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -120,8 +120,8 @@ async function update(req,res){
             throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
         }
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -137,8 +137,8 @@ async function deleteProduct(req,res){
             throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
         }
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 
@@ -154,8 +154,8 @@ async function activateProduct(req,res){
             throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
         }
     }catch(error){
-        console.error(error.message);
-        console.error(`Código de error: ${error.errorCode}`);
+        req.logger.warning(error.message);
+        req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
 

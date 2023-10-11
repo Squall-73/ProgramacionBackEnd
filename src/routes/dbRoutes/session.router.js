@@ -3,7 +3,7 @@ import cartsModel from "../../dao/models/carts.js";
 import passport from "passport";
 import UserDTO from "../../dao/DTOs/user.dto.js";
 import { cartDAO, productDAO } from "../../dao/index.js";
-
+import { addLogger } from "../../utils/logger/logger.js";
 
 
 const router = Router();
@@ -172,5 +172,17 @@ router.get("/purchase",async(req,res)=>{
     });
   }
 })
+
+router.get('/loggerTest', addLogger, (req, res) => {
+  
+  req.logger.debug('Esto es un mensaje de depuración.');
+  req.logger.info('Esto es un mensaje informativo.');
+  req.logger.warning('Esto es una advertencia.');
+  req.logger.error('Esto es un error.');
+  req.logger.fatal('Esto es un error fatal.');
+
+  res.send('Prueba de registros completada.');
+});
+
 
 export default router;

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2"
-import { CustomError } from "../../utils/errorHandler/customError";
-import { errorDictionary } from "../../utils/errorHandler/errorDictionary";
+import { CustomError } from "../../utils/errorHandler/customError.js";
+import { errorDictionary } from "../../utils/errorHandler/errorDictionary.js";
 
 const cartsCollection = "Carts";
 
@@ -25,8 +25,8 @@ cartsSchema.statics.getByIdWithProducts = async function (cartId) {
       throw new CustomError(errorDictionary.CARTS_NOT_FOUND, 404);
   } 
   }catch (error) {
-    console.error(error.message);
-    console.error(`Código de error: ${error.errorCode}`);
+    req.logger.error(error.message);
+    req.logger.error(`Código de error: ${error.errorCode}`);
   }
   
 };
