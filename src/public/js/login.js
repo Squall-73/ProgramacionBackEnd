@@ -5,7 +5,12 @@ const loginForm = document.getElementById("login-form");
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     login(username, password)});
-
+    const urlParams = new URLSearchParams(window.location.search);
+    const mailSent = urlParams.get('mailSent');
+    if (mailSent === 'true') {
+      
+      alert('¡Correo enviado con éxito! Revise su correo electrónico para restablecer su contraseña.')};
+  
     async function login(username, password) {
       const response = await fetch("/api/session/login", {
         method: "POST",

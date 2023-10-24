@@ -19,6 +19,7 @@ import initializePassport from "./config/passport.config.js";
 import ticketRouter from "./routes/dbRoutes/ticket.router.js";
 import mockingRouter from "./routes/mocking.router.js"
 import { addLogger } from "./utils/logger/logger.js";
+import transporter from "./utils/mailer/mailer.js";
 
 dotenv.config();
 const app = express();
@@ -64,7 +65,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended: true}))
 app.use(methodOverride('_method'));
-
+app.use(express.static("public"));
 app.engine("handlebars", handlebars.engine({runtimeOptions: {
   allowProtoPropertiesByDefault: true,
   noEscape: true
@@ -123,4 +124,18 @@ socketServer.on("connection", (socket) => {
   });
  
 
+});
+
+app.get("/mail", async (req, res) => {
+  let result = await transporter.sendMail({
+    from: "Coder house 43385<pablolr73@gmail.com>",
+    to: "pablolr73@gmail.com",
+    subject: "Prueba",
+    text: "Hola, esto es una prueba de envio de correo",
+    html: `<div><h1>Hola, esto es una prueba de envio de correo</h1>
+    </div>`,
+    attachments: [],
+  });
+
+  res.send("Correo enviado");
 });
