@@ -3,15 +3,16 @@ import cartsModel from "../../dao/models/carts.js";
 import passport from "passport";
 import User from "../../dao/models/users.js";
 import UserDTO from "../../dao/DTOs/user.dto.js";
+import Users from "../../dao/dbManager/userManager.js";
 import { cartDAO, productDAO } from "../../dao/index.js";
 import { addLogger } from "../../utils/logger/logger.js";
 import jwt from 'jsonwebtoken';
 import transporter from "../../utils/mailer/mailer.js";
 import { jwtSecret } from "../../config/config.js";
-import { createHash } from "../../utils/utils.js";
+import { createHash, isValidPassword } from "../../utils/utils.js";
 
-const router = Router();
-
+let router = Router();
+let users = new Users();
 
 router.post("/login",passport.authenticate("login", {failureRedirect: "/failLogin"}),
   async (req, res) => {
@@ -27,7 +28,7 @@ router.post("/login",passport.authenticate("login", {failureRedirect: "/failLogi
 
     if(req.user.role ==="admin"){req.session.admin = true};
    
-    const cartId = req.user.cart._id;
+    let cartId = req.user.cart._id;
     res.status(200).json({
       status: "OK",
       message: "User logged in",
@@ -81,8 +82,8 @@ router.get("/github",passport.authenticate('github',{scope:['user:email']}),asyn
 
 router.get("/githubcallback",passport.authenticate("github",{failureRedirect:"/"}),
 async(req,res)=>{
-    const newCart = await cartsModel.create({});
-    const cartId = newCart.id;
+    let newCart = await cartsModel.create({});
+    let cartId = newCart.id;
     if(req.user.role ==="admin"){req.session.admin = true}else{req.session.admin=false};
     req.user.cart = cartId;
     req.login(req.user, async (err) => {
@@ -97,7 +98,7 @@ async(req,res)=>{
 
 router.post("/logout",async  (req, res) => {
 
-  const cartId = req.session.passport.user.cart
+  let cartId = req.session.passport.user.cart
 
 
   await cartsModel.findByIdAndUpdate(cartId, { products: [] });
@@ -111,7 +112,7 @@ router.post("/logout",async  (req, res) => {
 
 router.get("/current", async (req, res) => {
   if (req.isAuthenticated()) {
-    const user = req.user;
+    let user = req.user;
     let userDTO = new UserDTO(user);
     return res.render("current", {
       title: "User",
@@ -132,19 +133,19 @@ router.get("/newProduct",async(req, res)=>{
 })
 
 router.get("/purchase",async(req,res)=>{
-  const user=req.user;
-  const userId=user.id
-  const cartId = req.user.cart
-  const cart = await cartDAO.getById(cartId)
-  const detailProducts = []
-  const noStock = []
+  let user=req.user;
+  let userId=user.id
+  let cartId = req.user.cart
+  let cart = await cartDAO.getById(cartId)
+  let detailProducts = []
+  let noStock = []
 
  
   for(let i=0;i<cart.products.length;i++){
-    const productID=cart.products[i].id
-    const detail = await productDAO.getById(productID)
-    const quantity= cart.products[i].quantity
-    const cost= detail.price*quantity
+    let productID=cart.products[i].id
+    let detail = await productDAO.getById(productID)
+    let quantity= cart.products[i].quantity
+    let cost= detail.price*quantity
     if(detail.stock>=quantity){
       detailProducts.push({
       product: detail,
@@ -192,10 +193,10 @@ router.get("/recover", async (req,res) => {
   res.render("resetPassword")
 })
 router.post("/recover", async (req, res) => {
-  const { email } = req.body;
+  let { email } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
 
     if (!user) {
       return res.render("recover", {
@@ -205,13 +206,13 @@ router.post("/recover", async (req, res) => {
     }
 
    
-    const token = jwt.sign({ userId: user._id }, jwtSecret, {
+    let token = jwt.sign({ userId: user._id }, jwtSecret, {
       expiresIn: '1h', 
     });
     
       res.locals.mailSent = true;
       // La solicitud fue exitosa, ahora envía el correo electrónico al usuario
-      const mailOptions = {
+      let mailOptions = {
         from: 'pablolr73@gmail.com', // Tu dirección de correo electrónico
         to: email, // La dirección de correo electrónico del usuario
         subject: 'Recuperación de contraseña',
@@ -240,31 +241,25 @@ router.post("/recover", async (req, res) => {
 });
 
 router.get("/reset-password/:token", async (req, res) => {
-  const token = req.params.token;
-
+  let token = req.params.token;
+  
   try {
-
     return res.render("newPass", {
       title: "Restablecer Contraseña",
       token: token,
     });
   } catch (error) {
     
-    console.error(error);
-    return res.render("error", {
-      title: "Error",
-      error: "El enlace de recuperación de contraseña es inválido o ha expirado",
-    });
+    return res.redirect("http://localhost:8080/api/session/recover");
   }
 });
 
 router.post("/reset-password/", async (req, res) => {
-  const { token,password, password2 } = req.body;
+  let { token, password, password2 } = req.body;
   
   try {
-    
-    const decoded = jwt.verify(token, jwtSecret);
-    const userId = decoded.userId;
+    let decoded = jwt.verify(token, jwtSecret);
+    let userId = decoded.userId;
     
     if (password !== password2) {
       return res.render("resetPassword", {
@@ -274,19 +269,58 @@ router.post("/reset-password/", async (req, res) => {
       });
     }
     
-    const user = await User.findById(userId);
-    user.password = createHash(password);
-    await user.save();
-    res.redirect("http://localhost:8080")
+    let user = await User.findById(userId);
+    let lastpass = user.password;
+    let hashedpass = createHash(password);
+
+    if (isValidPassword(lastpass, password)) {
+      console.log("La contraseña no puede ser igual a la anterior");
+      return res.status(400).render("resetPassword", {
+        title: "Restablecer Contraseña",
+        token: token,
+        error: "La contraseña no puede ser igual a la anterior",
+      });
+    } else {
+      console.log("Contraseña actualizada");
+      user.password = hashedpass;
+      await user.save();
+      res.redirect("http://localhost:8080");
+    }
   } catch (error) {
-    
-    console.error(error);
-    return res.render("error", {
-      title: "Error",
-      error: "El enlace de recuperación de contraseña es inválido o ha expirado",
-    });
+    return res.redirect("http://localhost:8080/api/session/recover");
   }
 });
 
+router.get("/updateUser", async (req, res) => {res.render("updateUser",{user:req.user})})
+router.post("/updateUser", async (req, res) => {
+  let user= await User.findById(req.user)
+  try{
+    
+    console.log(user)
+    user.role="premium"
+    await users.save(user)
+    res.sendStatus(200)
+  }catch (error){
+    console.error("Error:", error);
+  }
+});
 
+router.get("/updateProduct", async (req, res) => {
+  let{email,role}=req.query
+  let options={limit:100};
+  let response = await productDAO.getAll(options);
+  let lastPageItemCount = response.totalDocs % options.limit; 
+  let filteredResponse = response.docs.filter(item => item.owner === email)
+
+  res.render("updateProduct",{
+        response:response,
+        products: filteredResponse,
+        limit: options.limit,
+        totalPages: response.totalPages,
+        currentPage: response.page,
+        totalDocs: response.totalDocs,
+        lastPageItemCount:lastPageItemCount,
+        
+      })})
+  
 export default router;

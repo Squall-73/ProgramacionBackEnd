@@ -11,15 +11,15 @@ export default class CartManager {
     }
     async save(cart){
         try{
-            let data = await utils.readFile(this.path);
+            const data = await utils.readFile(this.path);
             this.carts= data?.length>0 ? data : [];
             const cid= cart.id
-            let  cartIndex = this.carts.findIndex((cart) => cart.id === cid)
+            const  cartIndex = this.carts.findIndex((cart) => cart.id === cid)
             if(cartIndex !==-1){
                 this.carts[cartIndex]=cart;
             }else{this.carts.push(cart);}
             await utils.writeFile(this.path, this.carts);
-            let updatedData = await utils.readFile(this.path);
+            const updatedData = await utils.readFile(this.path);
             if(data===updatedData){
                 throw new CustomError(errorDictionary.CART_NOT_UPDATED, 400);
             }else{return cart.id;}
@@ -31,9 +31,9 @@ export default class CartManager {
 
     async getById(id) {
         try{
-            let data = await utils.readFile(this.path);
+            const data = await utils.readFile(this.path);
             this.carts= data?.length>0 ? data:[];
-            let  cart = this.carts.find(data => data.id === id)
+            const  cart = this.carts.find(data => data.id === id)
             if(cart){
                 return cart;
             }else{
@@ -47,12 +47,12 @@ export default class CartManager {
     
     async saveProduct(cid, pid) {
         try{
-            let data = await utils.readFile(this.path);
+            const data = await utils.readFile(this.path);
             this.carts= data?.length>0 ? data:[];
-            let  cartIndex = this.carts.findIndex((cart) => cart.id === cid)
+            const  cartIndex = this.carts.findIndex((cart) => cart.id === cid)
             if(cartIndex !==-1){
-                let cart = this.carts[cartIndex];
-                let productIndex = cart.products.findIndex((product) => product.id === pid);
+                const cart = this.carts[cartIndex];
+                const productIndex = cart.products.findIndex((product) => product.id === pid);
                 if (productIndex !== -1) {
                     cart.products[productIndex].quantity++;
                 }else{

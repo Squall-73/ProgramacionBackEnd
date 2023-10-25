@@ -14,12 +14,12 @@ export const generateProduct=()=>{
 
 function codeGenerator() {
     const letter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let code = '';
+    const code = '';
   
     // Generar las primeras cuatro letras aleatorias
     for (let i = 0; i < 4; i++) {
-      const randomLetter = letter.charAt(Math.floor(Math.random() * letter.length));
-      code += randomLetter;
+      const randomletter = letter.charAt(Math.floor(Math.random() * letter.length));
+      code += randomletter;
     }
   
     // Generar los últimos cuatro dígitos aleatorios

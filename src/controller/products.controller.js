@@ -4,27 +4,27 @@ import { CustomError } from "../utils/errorHandler/customError.js";
 import { errorDictionary } from "../utils/errorHandler/errorDictionary.js";
 
 async function getAll(req, res){
-    const {limit, page, filter,sort, cartId, addedToCart} = req.query;
-    const perPage = limit || 10; 
+    let {limit, page, filter,sort, cartId, addedToCart} = req.query;
+    let perPage = limit || 10; 
 
-    const isAdmin = req.user.role;
+    let isAdmin = req.user.role;
   
     try{
-        const sortOptions = {};
+        let sortOptions = {};
         if (sort === 'price') {
             sortOptions.price = 1;
         } else if (sort === '-price') {
             sortOptions.price = -1;
         }
-        const options = {
+        let options = {
             page: page || 1,
             limit: perPage,
             sort: sortOptions,
         };
         
         let response = await productDAO.getAll(options, filter);
-        const lastPageItemCount = response.totalDocs % perPage;  
-        const added = addedToCart==='true'
+        let lastPageItemCount = response.totalDocs % perPage;  
+        let added = addedToCart==='true'
         if(response){
         if(response.docs){
        if(isAdmin==="admin"){
@@ -38,7 +38,12 @@ async function getAll(req, res){
         filter: filter,
         cartId:cartId,
         addedToCart: added,
+        role:req.user.role,
+        email:req.user.email,
         });}else{
+            let premium=false;
+            if(req.user.role==="premium"){ premium=true}
+            
         res.render("products",{response:response,
             products: response.docs.map(doc =>doc.toObject()),
             limit: perPage,
@@ -49,6 +54,10 @@ async function getAll(req, res){
             filter: filter,
             cartId:cartId,
             addedToCart: added,
+            userId:req.user.id,
+            role:req.user.role,
+            email:req.user.email,
+            premium:premium,
             });
         }}else{
             res.render("fileproducts",{
@@ -87,16 +96,16 @@ async function getById(req, res){
 }
 
 async function save(req,res){
-    const{title, description, price, thumbnail, code, stock}=req.body;
-
+    let{title, description, price, thumbnail, code, stock}=req.body;
+    let email = req.user.email
     if(!title||!description||!price||!code||!stock){
         return res.status(400).json({message: "Missing data"});
     }
     try{
-        const product = await productDAO.getByCode(code);
+        let product = await productDAO.getByCode(code);
         if(!product){
-            productDAO.save({title, description, price, thumbnail, code, stock});
-            const newProduct = {title, description, price, thumbnail, code, stock}
+            productDAO.save({title, description, price, thumbnail, code, stock, email});
+            let newProduct = {title, description, price, thumbnail, code, stock, email}
 
             res.render('productAdded', { productData: newProduct });
         }else{
@@ -110,9 +119,9 @@ async function save(req,res){
 
 async function update(req,res){
     try{
-        const{pid}=req.params;
-        const {title, description, price, thumbnail, code, stock} = req.body;
-        const product = await productDAO.getById(pid);
+        let{pid}=req.params;
+        let {title, description, price, thumbnail, code, stock} = req.body;
+        let product = await productDAO.getById(pid);
         if(product){
             let updatedProduct= await productDAO.update(pid,{title, description, price, thumbnail, code, stock})
             res.json({message:"Product updated", data: updatedProduct});

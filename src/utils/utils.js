@@ -8,8 +8,8 @@ export const __dirname = dirname(__filename);
 
 async function readFile(file) {
   try {
-    let result = await fs.promises.readFile(file, "utf-8");
-    let data = await JSON.parse(result);
+    const result = await fs.promises.readFile(file, "utf-8");
+    const data = await JSON.parse(result);
     return data;
   } catch (error) {
     console.log(error);

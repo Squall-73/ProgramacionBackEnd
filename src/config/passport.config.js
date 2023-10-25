@@ -59,11 +59,12 @@ const intializePassport = async()=>{
     passport.use("login",new LocalStrategy (async(email,password,done)=>{
             try{
                 const user = await User.findOne({email: email})
-                             
+                        
                 if(!user){
                     throw new CustomError(errorDictionary.USER_NOT_EXIST, 409);
                 }
                 const valid = isValidPassword(user.password,password)
+             
                 if(valid){
 
                         return done(null,user)
@@ -126,7 +127,7 @@ const intializePassport = async()=>{
     })
     
     passport.deserializeUser(async (id, done) => {
-        let user = await User.findById(id)
+        const user = await User.findById(id)
         done(null, user) 
     })
 }

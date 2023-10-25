@@ -4,8 +4,8 @@ document.getElementById("changePasswordButton").addEventListener("click", async 
     const token = document.getElementById("token").innerText; 
     
     if (password !== password2) {
-        console.error("Las contraseñas no coinciden");
-        return;
+        alert("Las contraseñas no coinciden");
+        return window.location.href = "http://localhost:8080/api/session/reset-password/" + token;
     }
 
     try {
@@ -16,15 +16,15 @@ document.getElementById("changePasswordButton").addEventListener("click", async 
             },
             body: JSON.stringify({ token, password, password2 }),
         });
-
+        
         if (response.ok) {
-            // La solicitud fue exitosa, realiza acciones necesarias (redirigir, mostrar un mensaje, etc.)
             console.log("Contraseña restablecida con éxito");
             alert("Contraseña actualizada")
             window.location.href = 'http://localhost:8080';
         } else {
             // Maneja el caso en el que la solicitud no fue exitosa
-            console.error("Error al restablecer la contraseña");
+            alert("La contraseña no puede ser igual a la anterior");
+            return window.location.href = "http://localhost:8080/api/session/reset-password/" + token;
         }
     } catch (error) {
         // Maneja errores de red u otros errores

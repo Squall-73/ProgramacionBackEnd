@@ -12,10 +12,10 @@ const ticketManager = new Tickets();
 async function getAll(req, res){
     const {limit} = req.query;
     try{
-        let response = await cartDAO.getAll();
+        const response = await cartDAO.getAll();
         if(response){
             if(limit){
-                let tempArray = response.filter((dat, index) => index < limit)
+                const tempArray = response.filter((dat, index) => index < limit)
                 res.json({carts: tempArray, limit: limit,quantity: tempArray.length});
             }else{
             res.json({carts: response});
@@ -31,13 +31,13 @@ async function getAll(req, res){
 }
 
 async function getById(req, res){
-    let {cid} = req.params;
+    const {cid} = req.params;
     try{
         const cart = await cartDAO.getById(cid);
    
        if(cart){
              const productsWithDetails = [];
-            for (const item of cart.products) {
+            for (let item of cart.products) {
                 const productDetails = await productDAO.getById(item.id);
                 productsWithDetails.push({
                     product: productDetails,
@@ -57,7 +57,7 @@ async function getById(req, res){
 
 async function save(req,res){
     try{
-        let cart = await cartDAO.save();
+        const cart = await cartDAO.save();
         if(cart){
             res.json({message: "Cart created"});
         }else{
@@ -70,12 +70,12 @@ async function save(req,res){
 }
 
 async function saveProduct(req,res){
-    let {cid, pid} = req.params;
-    let {quantity} = req.body;
+    const {cid, pid} = req.params;
+    const {quantity} = req.body;
     try{
-        let cart = await cartDAO.getById(cid);
+        const cart = await cartDAO.getById(cid);
        
-        let product = await productDAO.getById(pid);
+        const product = await productDAO.getById(pid);
              
         if(cart){
             if(product){
@@ -111,16 +111,16 @@ async function update(req,res){
     const {cid,pid} = req.params
     const {quantity} = req.body
     try{
-     let cart = await cartDAO.getById(cid)
-     let product = cart.products
+     const cart = await cartDAO.getById(cid)
+     const product = cart.products
 
-     let existsPindex = product.findIndex((producto) => producto.id === pid);
+     const existsPindex = product.findIndex((producto) => producto.id === pid);
      if(existsPindex!== -1){
      product[existsPindex].quantity = quantity
-     let updatedCart = await cartDAO.save(cart);
+     const updatedCart = await cartDAO.save(cart);
     console.log(updatedCart)
      const productsWithDetails = [];
-            for (const item of updatedCart.products) {
+            for (let item of updatedCart.products) {
                 const productDetails = await productDAO.getById(item.id);
                 productsWithDetails.push({
                     product: productDetails,
@@ -143,10 +143,10 @@ async function update(req,res){
 async function deleteCart(req,res){
     try{
         const {cid} = req.params
-        let cart = await cartDAO.getById(cid)
+        const cart = await cartDAO.getById(cid)
         cart.products = []
         await cartDAO.save(cart);
-        let updatedCart = await cartDAO.getById(cid)
+        const updatedCart = await cartDAO.getById(cid)
         if(cart === updatedCart){
             throw new CustomError(errorDictionary.CART_NOT_EMPTIED, 400);
         }else{
@@ -162,11 +162,11 @@ async function deleteCart(req,res){
 
  async function addCartToFile(cartData) {
     try {
-      let data = await utils.readFile("carts.json");
+      const data = await utils.readFile("carts.json");
       const carts = data?.length > 0 ? data : [];
       carts.push(cartData);
       await utils.writeFile("carts.json", carts);
-      let updatedData = await utils.readFile("carts.json");
+      const updatedData = await utils.readFile("carts.json");
       if(data===updatedData){
         throw new CustomError(errorDictionary.CART_NOT_UPDATED, 400);
       }else{
@@ -199,10 +199,10 @@ async function deleteCart(req,res){
 
 async function emptyCart(cid){
     try{
-        let cart = await cartDAO.getById(cid)
+        const cart = await cartDAO.getById(cid)
         cart.products = []
         await cartDAO.save(cart);
-        let updatedCart = await cartDAO.getById(cid)
+        const updatedCart = await cartDAO.getById(cid)
         if(cart === updatedCart){
             throw new CustomError(errorDictionary.CART_NOT_EMPTIED, 400);
         }else{
@@ -222,7 +222,7 @@ async function purchase(req,res){
        const{cartId, userId, noStockProduct, detailProducts}=req.body
        const cart=await cartDAO.getById(cartId)
        const user= await userManager.getById(userId)
-       let amount =0;
+       const amount =0;
        if (detailProducts.length) {
         for (let i = 0; i < detailProducts.length; i++) {
           const productID = detailProducts[i].product._id;
@@ -242,10 +242,10 @@ async function purchase(req,res){
       }
 
         const datetime= new Date()
-        const purchase_datetime = datetime.toISOString().split('T')[0] + "-" + datetime.toLocaleTimeString();
+        const purchase_datetime = datetime.toISOString().split('T')[0] + "-" + datetime.toLocaletimeString();
         const purcharser = user.email
         const tickets =await ticketManager.getAll();
-        let code="";
+        const code="";
 
         if(tickets.length>=0){
             const numberCode= tickets.length + 1

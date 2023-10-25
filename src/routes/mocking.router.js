@@ -4,7 +4,7 @@ import { generateProduct } from "../mocking/products.js";
 const router = Router();
 
 router.get('/mockingproducts',async(req,res)=>{
-    let products=[]
+    const products=[]
     for(let i=0;i<100;i++){
         products.push(generateProduct())
     }

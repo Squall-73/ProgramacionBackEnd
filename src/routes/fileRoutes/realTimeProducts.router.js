@@ -8,7 +8,7 @@ export default function (socket){
 router.get("/", async (req, res) => {
     
     try{
-        let response = await productManager.getProducts();
+        const response = await productManager.getProducts();
         
         res.render("realTimeProducts",{products: response});
         
@@ -27,10 +27,10 @@ router.post("/",async (req,res)=>{
         return res.status(400).json({message: "Missing data"});
     }
     try{
-        let product = await productManager.addProduct(title, description, price, thumbnail, code, stock);
+        const product = await productManager.addProduct(title, description, price, thumbnail, code, stock);
         if(product){
-            let response = await productManager.getProducts();
-            let newproduct = await productManager.getProductById(response.length)
+            const response = await productManager.getProducts();
+            const newproduct = await productManager.getProductById(response.length)
         
             res.render("realTimeProducts",{products: response});
 

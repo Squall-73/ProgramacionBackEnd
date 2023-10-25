@@ -17,6 +17,7 @@ export default class ProductManager {
         this.tithumbnailtle= data.thumbnail;
         this.code= data.code;
         this.stock= data.stock;
+        this.owner=data.email
         if (
             title==undefined ||
             description==undefined ||
@@ -29,7 +30,7 @@ export default class ProductManager {
         }
         
         
-            let data = await utils.readFile(this.path);
+            const data = await utils.readFile(this.path);
             this.products= data?.length>0 ? data : [];
             if(data){
             if(this.products.length>0){
@@ -68,7 +69,7 @@ export default class ProductManager {
     }
     async getAll() {
         try{
-            let data = await utils.readFile(this.path);
+            const data = await utils.readFile(this.path);
             this.products=data;
             if(data){
                 return this.products
@@ -84,9 +85,9 @@ export default class ProductManager {
 
     async getById(id) {
         try{
-            let data = await utils.readFile(this.path);
+            const data = await utils.readFile(this.path);
             this.products= data?.length>0 ? data:[];
-            let  prod = this.products.find(data => data.id === id)
+            const  prod = this.products.find(data => data.id === id)
             if(prod){
                 return prod;
             }else{
@@ -101,9 +102,9 @@ export default class ProductManager {
 
     async update(id, productData) {
         try{
-            let products = await utils.readFile(this.path);
+            const products = await utils.readFile(this.path);
             this.products= products?.length>0 ? products:[];
-            let  productIndex = this.products.findIndex((data) => data.id === id)
+            const  productIndex = this.products.findIndex((data) => data.id === id)
             if(productIndex !==-1){
                 this.products[productIndex]={
                     ...this.products[productIndex],
@@ -123,9 +124,9 @@ export default class ProductManager {
 
     async delete(id){
         try{
-            let products = await utils.readFile(this.path);
+            const products = await utils.readFile(this.path);
             this.products= products?.length>0 ? products:[];
-            let  productIndex = this.products.findIndex((data) => data.id === id)
+            const  productIndex = this.products.findIndex((data) => data.id === id)
             if(productIndex !==-1){
                 
                 this.products[productIndex].status=false;

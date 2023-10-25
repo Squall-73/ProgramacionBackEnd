@@ -29,6 +29,14 @@
     <button id="logout-button">Cerrar sesión</button>
     
 </div>
+<div>
+  {{#if premium}}
+  <b><a href="/api/session/newProduct?role={{role}}&email={{email}}">Agregar producto</a></b>
+  <b><a href="/api/session/updateProduct?role={{role}}&email={{email}}">Modificar producto</a></b>
+  {{else}}
+  <b><a href="/api/session/updateUser?user={{userId}}&cartId={{cartId}}">Actualizar usuario</a></b>
+  {{/if}}
+</div>
 
 <div>
   <h1>Lista de productos</h1>

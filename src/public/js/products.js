@@ -92,6 +92,8 @@ function updateProduct(productId) {
     const thumbnail = document.getElementById(`thumbnail-${productId}`).value;
     const stock = document.getElementById(`stock-${productId}`).value;
     const code = document.getElementById(`code-${productId}`).value;
+    console.log(owner)
+
 
     const data = {
         title: title,
@@ -99,9 +101,10 @@ function updateProduct(productId) {
         price: price,
         thumbnail: thumbnail,
         stock: stock,
-        code: code
+        code: code,
+        owner:owner,
     };
-
+    console.log(data)
     const options = {
         method: 'POST',
         headers: {
@@ -113,6 +116,7 @@ function updateProduct(productId) {
     fetch('/api/products', options)
         .then(response => {
             if (response.ok) {
+              console.log(options)
                 return response.json();
             } else {
                 throw new Error('Error en la solicitud');

@@ -127,7 +127,7 @@ socketServer.on("connection", (socket) => {
 });
 
 app.get("/mail", async (req, res) => {
-  let result = await transporter.sendMail({
+  const result = await transporter.sendMail({
     from: "Coder house 43385<pablolr73@gmail.com>",
     to: "pablolr73@gmail.com",
     subject: "Prueba",

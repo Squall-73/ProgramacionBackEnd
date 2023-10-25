@@ -2,8 +2,8 @@ import { Router } from "express";
 import Users from "../../dao/dbManager/userManager.js";
 import { cartDAO } from "../../dao/index.js";
 
-const router = Router();
-const user=new Users();
+let router = Router();
+let user=new Users();
 
 
 router.get("/api/", async (req, res) => {
@@ -16,11 +16,11 @@ router.get("/api/", async (req, res) => {
 
 router.post("/api/login", async (req,res) =>{
 try{
-    const userQuantity = (await user.getAll()).length;
-    const newUserName = "User " + (userQuantity+1);
-    const newUser = await user.save({userName: newUserName});
-    const newCart = await cartDAO.save({user:newUser});
-    const cartId = newCart._id;
+    let userQuantity = (await user.getAll()).length;
+    let newUserName = "User " + (userQuantity+1);
+    let newUser = await user.save({userName: newUserName});
+    let newCart = await cartDAO.save({user:newUser});
+    let cartId = newCart._id;
     res.redirect(`/api/products?cartId=${cartId}`);
     
 }catch(error){

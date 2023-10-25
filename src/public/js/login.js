@@ -1,18 +1,18 @@
-const loginForm = document.getElementById("login-form");
+let loginForm = document.getElementById("login-form");
   
   loginForm.addEventListener("submit", function (event) {
     event.preventDefault();
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
     login(username, password)});
-    const urlParams = new URLSearchParams(window.location.search);
-    const mailSent = urlParams.get('mailSent');
+    let urlParams = new URLSearchParams(window.location.search);
+    let mailSent = urlParams.get('mailSent');
     if (mailSent === 'true') {
       
       alert('¡Correo enviado con éxito! Revise su correo electrónico para restablecer su contraseña.')};
   
     async function login(username, password) {
-      const response = await fetch("/api/session/login", {
+      let response = await fetch("/api/session/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -20,11 +20,11 @@ const loginForm = document.getElementById("login-form");
         body: JSON.stringify({ username, password }),
       });
     
-      const data = await response.json();
+      let data = await response.json();
 
 
       if(data.status === "OK"){
-        const cartId = data.cartId;
+        let cartId = data.cartId;
         setTimeout(()=>{
            window.location.href = `http://localhost:8080/api/products/?cartId=${cartId}`
          },200)
