@@ -1,0 +1,29 @@
+components:
+  schemas:
+    Carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por mongo
+        user:
+          type: String
+          description: Usuario dueño del carro
+        products:
+          type: Array
+          description: Array de productos y cantidades
+          properties:
+              id:
+                type: String
+                description: Id del producto
+              quantity:
+                type: number
+                description: cantidad de producto 
+      example:
+        _id: ObjectId("64d182bb95417b493b556b9b")
+        user: Pablo Piazza
+        products:
+          - id: product1
+            quantity: 2
+          - id: product2
+            quantity: 3

@@ -20,6 +20,10 @@ import ticketRouter from "./routes/dbRoutes/ticket.router.js";
 import mockingRouter from "./routes/mocking.router.js"
 import { addLogger } from "./utils/logger/logger.js";
 import transporter from "./utils/mailer/mailer.js";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
+
+
 
 dotenv.config();
 const app = express();
@@ -31,6 +35,20 @@ const MONGO_URL = process.env.MONGO_URL
 
 const connection = mongoose.connect(MONGO_URL)
 initializePassport();
+
+const SwaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Documentacion del proyecto",
+      description: "Curso Backend - CoderHouse",
+    },
+  },
+  apis: ["./docs/**/*.yaml"],
+};
+
+const specs = swaggerJsdoc(SwaggerOptions);
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 app.use(
   session({
     store: MongoStore.create({

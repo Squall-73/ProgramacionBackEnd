@@ -1,0 +1,274 @@
+paths:
+  /api/products/:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los productos se obtuvieron correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+    post:
+      summary: Agrega un producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/requestBodies/saveProduct"
+      responses:
+        "200":
+          description: Producto guardado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "409":
+          description: Error en la carga, producto ya existente
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un producto a partir de su id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del producto a buscar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El producto se obtuvo correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+    put:
+      summary: Actualiza un producto a partir de su id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del producto a actualizar
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/requestBodies/updateProduct"
+      responses:
+        "200":
+          description: Producto actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+    delete:
+      summary: Elimina lógicamente un producto a partir de su id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del producto a eliminar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Producto eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+  /api/products/{pid}/activate:
+    put:
+      summary: Activa un producto a partir de su id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del producto a activar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Producto activado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+  
+
+
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por mongo
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripción del producto
+        price:
+          type: Number
+          description: Precio del producto
+        thumbnail:
+          type: Array
+          description: Array de imágenes del producto
+        status:
+          type: Boolean
+          description: Estado del producto, si es falso no se encuentra a la venta
+        code:
+          type: String
+          description: Código de identificación del producto, de la forma AAAA0000
+        stock:
+          type: Number
+          description: Stock disponible del producto
+        owner:
+          type: String
+          description: Quien agregó el producto
+      example:
+        _id: ObjectId("64d182bb95417b493b556b9b")
+        title: Coca Cola 2L
+        description: Gaseosa Cola - Botella de 2 litros
+        price: 500
+        thumbnail: []
+        status: true
+        code: BEBI0001
+        stock: 50
+        owner: admin
+    requestBodies:
+      saveProduct:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: String
+                  description: Nombre del producto
+                description:
+                  type: String
+                  description: Descripción del producto
+                price:
+                  type: Number
+                  description: Precio del producto
+                thumbnail:
+                  type: Array
+                  description: Array de imágenes del producto
+                status:
+                  type: Boolean
+                  description: Estado del producto, si es falso no se encuentra a la venta
+                code:
+                  type: String
+                  description: Código de identificación del producto, de la forma AAAA0000
+                stock:
+                  type: Number
+                  description: Stock disponible del producto
+                owner:
+                  type: String
+                  description: Quien agregó el producto
+        example:
+          title: Coca Cola 2L
+          description: Gaseosa Cola - Botella de 2 litros
+          price: 500
+          thumbnail: []
+          status: true
+          code: AAAA0001
+          stock: 50
+          owner: admin
+      updateProduct:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: String
+                  description: Nombre del producto
+                description:
+                  type: String
+                  description: Descripción del producto
+                price:
+                  type: Number
+                  description: Precio del producto
+                thumbnail:
+                  type: Array
+                  description: Array de imágenes del producto
+                status:
+                  type: Boolean
+                  description: Estado del producto, si es falso no se encuentra a la venta
+                code:
+                  type: String
+                  description: Código de identificación del producto, de la forma AAAA0000
+                stock:
+                  type: Number
+                  description: Stock disponible del producto
+        example:
+          title: Coca Cola 2L
+          description: Gaseosa Cola - Botella de 2 litros
+          price: 500
+          thumbnail: []
+          status: true
+          stock: 50
+
