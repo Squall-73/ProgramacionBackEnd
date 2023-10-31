@@ -222,20 +222,20 @@ async function purchase(req,res){
        const{cartId, userId, noStockProduct, detailProducts}=req.body
        const cart=await cartDAO.getById(cartId)
        const user= await userManager.getById(userId)
-       const amount =0;
+       let amount =0;
        if (detailProducts.length) {
         for (let i = 0; i < detailProducts.length; i++) {
-          const productID = detailProducts[i].product._id;
-          const product = await productDAO.getById(productID);
-          const quantity = detailProducts[i].quantity;
+          let productID = detailProducts[i].product._id;
+          let product = await productDAO.getById(productID);
+          let quantity = detailProducts[i].quantity;
           amount = amount + product.price * quantity;
           product.stock = product.stock - quantity;
           await productDAO.save(product);
         }
       } else {
-        const productID = detailProducts[0].product._id;
-        const product = await productDAO.getById(productID);
-        const quantity = detailProducts[0].product.quantity;
+        let productID = detailProducts[0].product._id;
+        let product = await productDAO.getById(productID);
+        let quantity = detailProducts[0].product.quantity;
         amount = amount + product.price * quantity;
         product.stock = product.stock - quantity;
         await productDAO.save(product);

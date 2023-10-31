@@ -1,3 +1,205 @@
+paths:
+  /api/carts/:
+    get:
+      summary: Obtiene todos los carros
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Los carros se obtuvieron correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+    post:
+      summary: Agrega un carro
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Carro creado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un carro a partir de su id
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carro a buscar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El carro se obtuvo correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "404":
+        description: Carro no encontrado
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+    delete:
+      summary: Elimina un carro a partir de su id
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carro a buscar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El carro se eliminó correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "404":
+          description: Carro no encontrado
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Agregar un producto al carro
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carro donde se agrega el producto
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: id del producto que se agrega
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/requestBodies/addProduct"
+      responses:
+        "200":
+          description: Producto agregado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "404":
+          description: Producto no encontrado o Carro no encontrado
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+  /api/carts/{cid}/products/{pid}:
+    delete:
+      summary: Elimina un producto del carro
+      tags:
+        - Carts
+      parameters:
+        parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carro donde se agrega el producto
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: id del producto que se agrega
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Producto eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "404":
+          description: Producto no encontrado o Carro no encontrado
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+    put:
+      summary: Actualiza la cantidad de un producto del carro
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carro donde se actualiza el producto
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: id del producto que se actualiza
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/requestBodies/addProduct"
+      responses:
+        "200":
+          description: Cantidad actualizada correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "401":
+          description: Error de autenticación, usuario no autenticado
+        "404":
+          description: Producto no encontrado o Carro no encontrado
+        "500":
+          description: Error interno del servidor,usualmente generado por una query defectuosa
+
+
 components:
   schemas:
     Carts:
@@ -27,3 +229,18 @@ components:
             quantity: 2
           - id: product2
             quantity: 3
+    requestBodies:
+      addProduct:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: number
+                  description: cantidad del producto a agregar
+        example:
+          quantity: 5
+
+
+
