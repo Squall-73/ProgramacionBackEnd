@@ -26,7 +26,7 @@ import swaggerUiExpress from "swagger-ui-express";
 
 
 dotenv.config();
-const app = express();
+export const app = express();
 const PORT = process.env.PORT || 8080;
 const httpServer = app.listen(PORT, () => {
   console.log("Server running on port " + PORT);

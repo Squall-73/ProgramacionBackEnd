@@ -12,9 +12,9 @@ export const generateProduct=()=>{
     }
 }
 
-function codeGenerator() {
+export function codeGenerator() {
     const letter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const code = '';
+    let code = '';
   
     // Generar las primeras cuatro letras aleatorias
     for (let i = 0; i < 4; i++) {
