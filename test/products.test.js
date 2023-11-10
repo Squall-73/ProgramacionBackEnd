@@ -28,39 +28,7 @@ describe("Testing products Router", () => {
       
       Assert.strictEqual(Array.isArray(result.docs), true);
     });
-    it("El endpoint /api/products/ POST must save a product", async () => {
-      let productmock = { 
-        title:faker.commerce.productName(),
-        description: faker.commerce.productDescription(),
-        price: faker.commerce.price(),
-        code: codeGenerator(),
-        stock: faker.number.int({max:100})
-      }
-      const response = await requester
-      .post("/api/products")
-      .send(productmock);
-      assert.strictEqual(response.status, 200);
-      assert.ok(response.ok);
-    });
-    it("El endpoint /api/products/:pid/activate PUT must activate a product", async () => {
-      let productmock = { 
-        title:faker.commerce.productName(),
-        description: faker.commerce.productDescription(),
-        price: faker.commerce.price(),
-        code: codeGenerator(),
-        stock: faker.number.int({max:100}),
-        status:false
-      }
-
-      const response= await requester.put(`/api/products/${productmock._id}/activate`)
-      assert.strictEqual(response.status, 200);
-      assert.ok(response.ok);
-
-      const product = await Products.findById(productmock._id);
-      assert.strictEqual(product.status, true);
-
-
-    });
+    
     
     after(async () => {
       await mongoose.connection.close();

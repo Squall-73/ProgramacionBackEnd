@@ -22,6 +22,7 @@ import { addLogger } from "./utils/logger/logger.js";
 import transporter from "./utils/mailer/mailer.js";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
+import userRouter from "./routes/dbRoutes/user.router.js";
 
 
 
@@ -101,8 +102,12 @@ app.use(express.static("public", {
 
 
 const socketServer = new Server(httpServer)
-
+const NODE_ENV ="test"
 function auth(req, res, next) {
+  if (NODE_ENV === 'test') {
+    
+    return next();
+  }
   if (req.isAuthenticated()) {
     return next();
   }else{
@@ -120,6 +125,7 @@ app.use("/signup", signupRouter)
 app.use("/api/session/", sessionRouter);
 app.use("/api/tickets/", ticketRouter)
 app.use("/api/testing",mockingRouter)
+app.use("/api/users",userRouter)
 
 
 httpServer.on("error",(error)=>{

@@ -16,7 +16,7 @@ let users = new Users();
 
 router.post("/login",passport.authenticate("login", {failureRedirect: "/failLogin"}),
   async (req, res) => {
- 
+    
     req.session.user = {
       first_name: req.user.first_name,
       last_name: req.user.last_name,
@@ -71,6 +71,7 @@ router.post("/login",passport.authenticate("login", {failureRedirect: "/failLogi
 
   router.get("/failLogin", async (req, res) => {
     console.log("failed strategy");
+
     res.send({ error: "failed" });
   });
   
@@ -296,7 +297,7 @@ router.post("/updateUser", async (req, res) => {
   let user= await User.findById(req.user)
   try{
     
-    console.log(user)
+    
     user.role="premium"
     await users.save(user)
     res.sendStatus(200)
@@ -322,5 +323,16 @@ router.get("/updateProduct", async (req, res) => {
         lastPageItemCount:lastPageItemCount,
         
       })})
+
+router.delete("/deleteuser/:uid", async (req,res)=>{
+  const {uid} = req.params
+  try{
+  await User.findByIdAndDelete(uid)
+  res.sendStatus(200)
+  }catch{
+    res.sendStatus(403)
+  }
+
+})
   
 export default router;

@@ -18,6 +18,7 @@ const GithubClientSecret = "51bc7cf27631161fa97ca9e82ff33efdafe11710"
 const GithubURL = process.env.GITHUB_URL_CALLBACK
 
 const intializePassport = async()=>{
+    
     passport.use("register",new LocalStrategy({
         passReqToCallback: true,
         usernameField: "email"},async(req,mail,pass,done)=>{

@@ -15,6 +15,11 @@ export default class Users {
         let objectId = new mongoose.Types.ObjectId(id);
         return await usersModel.findOne(objectId);
     }
+    
+    async getByEmail(email){
+        let user =await usersModel.findByEmail(email)
+        return user
+    }
 
     async save(data) {
         let respuesta = usersModel.create(data);

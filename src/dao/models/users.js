@@ -13,6 +13,10 @@ let userSchema = new mongoose.Schema({
   cart: { type: mongoose.Schema.Types.ObjectId, ref: "Carts" } 
 });
 
-let User = mongoose.model(userCollection, userSchema);
 
+
+userSchema.statics.findByEmail = async function (email) {
+  return this.findOne({email});
+}
+let User = mongoose.model(userCollection, userSchema);
 export default User;
