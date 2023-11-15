@@ -1,8 +1,26 @@
 <div>
-    <h2>Desea actualizar a usuario premum?</h2>
+    <h2>Desea actualizar a usuario premium?</h2>
     <br>
-    <button id="update-user">Actualizar</button>
+    <form action="/api/users/{{userId}}/documents" method="post" enctype="multipart/form-data">
+    <label for="identificationDocument">Subir documento de identificación:</label>
+  <input type="file" name="identificationDocument">
+  <input type="hidden" name="documentType" value="identification">
+  <br>
+  <br>
+  <label for="addressDocument">Subir documentación de dirección:</label>
+  <input type="file" name="addressDocument">
+  <input type="hidden" name="documentType" value="address">
+  <br>
+  <br>
+  <label for="accountDocument">Subir documentación de cuenta:</label>
+  <input type="file" name="accountDocument">
+  <input type="hidden" name="documentType" value="account">
+  <br>
+  <br>
+  <button type="submit">Subir Documentos</button>
+</form>
     <button id="go-back">Volver</button>
     <div id="user" style="display: none;">{{userId}}</div>
+    <div id="cartId" style="display: none;">{{cartId}}</div>
 </div>
 <script src="/js/updateUser.js"></script>

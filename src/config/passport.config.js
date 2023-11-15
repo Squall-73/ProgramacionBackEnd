@@ -44,9 +44,8 @@ const intializePassport = async()=>{
                         password: createHash(password),
                         role: "user",
                         cart: cartId,
+                        last_connection:Date.now()
                     }
-                    
-
                     const result = await User.create(newUser)
                     return done(null,result)
                 }
@@ -63,11 +62,12 @@ const intializePassport = async()=>{
                         
                 if(!user){
                     throw new CustomError(errorDictionary.USER_NOT_EXIST, 409);
-                }
+                }   
                 const valid = isValidPassword(user.password,password)
              
                 if(valid){
-
+                        user.last_connection=Date.now()
+                        await User.findByIdAndUpdate(user._id, user)
                         return done(null,user)
                     }else{
                         throw new CustomError(errorDictionary.WRONG_PASSWORD, 401);
@@ -108,7 +108,7 @@ const intializePassport = async()=>{
                 password: crypto.randomUUID(),
                 role: "admin",
                 cart: cartId,
-                
+                last_connection:Date.now()
             }
             
             console.log(newUser)
@@ -116,6 +116,8 @@ const intializePassport = async()=>{
 
             done(null,result)
            }else{
+            user.last_connection=Date.now()
+            await User.findByIdAndUpdate(user._id, user)
             done(null,user)
            }
           }catch(err){

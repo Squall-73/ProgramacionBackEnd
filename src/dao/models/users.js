@@ -10,7 +10,12 @@ let userSchema = new mongoose.Schema({
   password: { type: String, max: 100 },
   age: { type: Number,  max: 100 },
   role: { type: String, max: 100,default: "user"},
-  cart: { type: mongoose.Schema.Types.ObjectId, ref: "Carts" } 
+  cart: { type: mongoose.Schema.Types.ObjectId, ref: "Carts" } ,
+  documents:{type: [{name: String, reference: String}], default:[]},
+  last_connection: {type: Date, default:1/1/1900},
+  identificationDoc:{type: Boolean, default: false}, //Se vuelve true cuando se sube la identificacion
+  addressDoc:{type: Boolean, default: false},//Se vuelve true cuando se sube la documentacion de dirección
+  accountDoc:{type: Boolean, default: false},//Se vuelve true cuando se sube la documentación de cuenta
 });
 
 

@@ -102,7 +102,7 @@ app.use(express.static("public", {
 
 
 const socketServer = new Server(httpServer)
-const NODE_ENV ="test"
+const NODE_ENV ="dev"
 function auth(req, res, next) {
   if (NODE_ENV === 'test') {
     

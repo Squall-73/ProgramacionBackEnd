@@ -292,7 +292,7 @@ router.post("/reset-password/", async (req, res) => {
   }
 });
 
-router.get("/updateUser", async (req, res) => {res.render("updateUser",{user:req.user})})
+/*router.get("/updateUser", async (req, res) => {res.render("updateUser",{user:req.user})})
 router.post("/updateUser", async (req, res) => {
   let user= await User.findById(req.user)
   try{
@@ -304,7 +304,7 @@ router.post("/updateUser", async (req, res) => {
   }catch (error){
     console.error("Error:", error);
   }
-});
+});*/
 
 router.get("/updateProduct", async (req, res) => {
   let{email,role}=req.query

@@ -1,24 +1,29 @@
-document.getElementById("update-user").addEventListener("click", async function () {
-    let user = document.getElementById("user").value;
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form');
+    const backButton = document.getElementById('go-back');
     
-    console.log(user)
-    try {
-        let response = await fetch("/api/session/updateUser/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ user }),
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const userId = document.getElementById('user').textContent;
+  
+      try {
+        const formData = new FormData(form);
+        await fetch(`/api/users/${userId}/documents`, {
+          method: 'POST',
+          body: formData
         });
-        if(response.ok){
-            history.back();  
-        }
-} catch (error) {
-    // Maneja errores de red u otros errores
-    console.error("Error de red:", error);
-}
-});
+  
+        alert('Documentos subidos correctamente');
+        const cartId = document.getElementById('cartId').textContent.trim();
+        window.location.href = `/api/products?cartId=${cartId}`
+      } catch (error) {
+        console.error('Error al subir los documentos:', error);
+        alert('Hubo un error al subir los documentos');
+      }
+    });
+  
 
 document.getElementById("go-back").addEventListener("click", function () {
     history.back();
+});
 });
