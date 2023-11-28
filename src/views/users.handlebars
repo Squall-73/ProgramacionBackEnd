@@ -1,0 +1,18 @@
+<div>
+    <h1>Lista de Usuarios</h1>
+    
+    {{#each allUser}}
+        <p><b>Nombre:</b> {{this.first_name}}</p>
+        <p><b>Apellido:</b> {{this.last_name}}</p>
+        <p><b>Email:</b> {{this.email}}</p>
+        <p><b>Tipo de cuenta:</b> {{this.role}}</p>
+        {{#if isAdmin}}
+        {{else}}
+            <button class="modify-user" data-userid="{{this._id}}">Modificar usuario</button>
+            <button class="delete-user" data-userid="{{this._id}}">Eliminar usuario</button>
+        {{/if}}
+        <hr></hr>
+    {{/each}}
+    <button id="go-back">Volver</button>
+</div>
+<script src="/js/users.js"></script>

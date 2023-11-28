@@ -57,7 +57,7 @@ router.post('/:userId/documents', upload.fields([
             user.accountDoc = true;
           }
       })
-    
+      
   
     await User.findByIdAndUpdate(userId, user);
     if (user.identificationDoc && user.addressDoc && user.accountDoc) {
@@ -73,5 +73,43 @@ router.post('/:userId/documents', upload.fields([
   }
   });
   
+  router.get("/allusers", async (req, res) => {
+    
+    let allUser = await users.getAll()
+    allUser.forEach(user => {
+      user.isAdmin = user.role === 'admin';
+    });
+    res.render("users",{allUser})})
+    
+    
+  router.post("/:userId/changerole", async (req, res) => {
+    const { userId } = req.params;
 
+    try {
+        let user = await User.findById(userId);
+        if(user.role==="user"){
+          user.role="premium"
+        }else if(user.role==="premium"){
+          user.role="user"
+        }
+        await user.save()
+        res.status(200).json({ message: "Rol de usuario actualizado exitosamente" });
+    } catch (error) {
+        
+        res.status(500).json({ error: "Error al cambiar el rol del usuario" });
+    }
+  });
+
+  router.delete("/:userId/delete", async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        let user = await User.findByIdAndRemove(userId);
+        res.status(200).json({ message: "Rol de usuario eliminado exitosamente" });
+    } catch (error) {
+        
+        res.status(500).json({ error: "Error al eliminar usuario" });
+    }
+  });
+  
 export default router;

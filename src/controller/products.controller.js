@@ -27,7 +27,8 @@ async function getAll(req, res){
         let added = addedToCart==='true'
         if(response){
         if(response.docs){
-       if(isAdmin==="admin"){
+       if(isAdmin.toLowerCase() ==="admin"){
+        
         res.render("productsAdmin",{response:response,
         products: response.docs.map(doc =>doc.toObject()),
         limit: perPage,
@@ -40,6 +41,7 @@ async function getAll(req, res){
         addedToCart: added,
         role:req.user.role,
         email:req.user.email,
+        
         });}else{
             let premium=false;
             if(req.user.role==="premium"){ premium=true}
