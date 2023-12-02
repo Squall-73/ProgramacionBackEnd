@@ -14,7 +14,7 @@ dotenv.config()
 
 const LocalStrategy = local.Strategy
 const GithubClientId = process.env.GITHUB_CLIENT_ID
-const GithubClientSecret = "51bc7cf27631161fa97ca9e82ff33efdafe11710"
+const GithubClientSecret = process.env.GITHUB_CLIENT_SECRET
 const GithubURL = process.env.GITHUB_URL_CALLBACK
 
 const intializePassport = async()=>{

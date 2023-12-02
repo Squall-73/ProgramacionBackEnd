@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const backButton = document.getElementById('go-back');
     const modifyUserButtons = document.querySelectorAll('.modify-user');
     const deleteUserButtons = document.querySelectorAll('.delete-user');
-    document.getElementById("go-back").addEventListener("click", function () {
-      history.back();
-    });
+    const deleteOldUserButton = document.getElementById('delete-old-users');
+    
+    backButton.addEventListener("click", function () {history.back()});
     modifyUserButtons.forEach(button => {
         button.addEventListener("click", async function () {
             const userId = this.dataset.userid;
@@ -48,4 +48,28 @@ deleteUserButtons.forEach(button => {
 
   });
 });
+deleteOldUserButton.addEventListener("click", async function () {
+    try{
+        const allUserJSON = deleteOldUserButton.getAttribute('data-alluser');
+        const allUser = JSON.parse(allUserJSON);
+        
+        const response = await fetch(`/api/users/delete`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ allUser })
+        });
+
+        if (response.ok) {
+            window.location.reload(); 
+        } else {
+            
+            console.error("Error al eliminar usuarios antiguos");
+        }
+    }catch (error) {
+        console.error("Error de red:", error);
+    }
+});
+
 });

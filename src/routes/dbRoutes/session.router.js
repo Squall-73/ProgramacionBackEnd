@@ -218,16 +218,13 @@ router.post("/recover", async (req, res) => {
         to: email, // La dirección de correo electrónico del usuario
         subject: 'Recuperación de contraseña',
         text: 'Haz clic en el siguiente enlace para recuperar tu contraseña: http://localhost:8080/api/session/reset-password/' + token,
-       
       };
-
       // Envía el correo electrónico
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           console.error('Error al enviar el correo electrónico:', error);
         } else {
           console.log('Correo electrónico enviado:', info.response);
-          
           res.redirect('http://localhost:8080?mailSent=true')
         }
       });
@@ -292,19 +289,6 @@ router.post("/reset-password/", async (req, res) => {
   }
 });
 
-/*router.get("/updateUser", async (req, res) => {res.render("updateUser",{user:req.user})})
-router.post("/updateUser", async (req, res) => {
-  let user= await User.findById(req.user)
-  try{
-    
-    
-    user.role="premium"
-    await users.save(user)
-    res.sendStatus(200)
-  }catch (error){
-    console.error("Error:", error);
-  }
-});*/
 
 router.get("/updateProduct", async (req, res) => {
   let{email,role}=req.query
@@ -332,7 +316,6 @@ router.delete("/deleteuser/:uid", async (req,res)=>{
   }catch{
     res.sendStatus(403)
   }
-
 })
   
 export default router;

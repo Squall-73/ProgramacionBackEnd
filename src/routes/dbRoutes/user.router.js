@@ -2,7 +2,7 @@ import { Router } from "express";
 import User from "../../dao/models/users.js";
 import Users from "../../dao/dbManager/userManager.js";
 import multer from 'multer'
-
+import transporter from "../../utils/mailer/mailer.js";
 import path from "path"
 
 let router = Router();
@@ -79,7 +79,8 @@ router.post('/:userId/documents', upload.fields([
     allUser.forEach(user => {
       user.isAdmin = user.role === 'admin';
     });
-    res.render("users",{allUser})})
+    const serializedAllUser = JSON.stringify(allUser);
+    res.render("users",{allUser, serializedAllUser})})
     
     
   router.post("/:userId/changerole", async (req, res) => {
@@ -111,5 +112,47 @@ router.post('/:userId/documents', upload.fields([
         res.status(500).json({ error: "Error al eliminar usuario" });
     }
   });
+
+  router.delete("/delete",async (req,res)=>{
+    const {allUser} = req.body
+    const twoHoursAgo = new Date();
+    try{
+      twoHoursAgo.setDate(twoHoursAgo.getDate() - 2);
+      const deletionPromises = allUser.map(async (element) => {
+        if (new Date(element.last_connection) < twoHoursAgo) {
+          let userId = element._id;
+          await sendAccountDeletedEmail(element.email);
+          await User.findByIdAndRemove(userId);
+        }
+      });
   
+      await Promise.all(deletionPromises)
+      res.sendStatus(200);
+    } catch (error) {
+        
+      res.status(500).json({ error: "Error al eliminar usuarios" });
+  }
+    
+
+    
+  })
+  
+  async function sendAccountDeletedEmail(email) {
+      
+    const mailOptions = {
+      from: 'pablolr73@gmail.com',
+      to: email,
+      subject: 'Tu cuenta ha sido eliminada',
+      text: 'Hola, lamentamos informarte que tu cuenta ha sido eliminada por inactividad. Si tienes alguna pregunta, contáctanos.'
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.error('Error al enviar el correo electrónico:', error);
+      } else {
+        console.log('Correo electrónico enviado:', info.response);
+      }
+    });
+  }
+
 export default router;

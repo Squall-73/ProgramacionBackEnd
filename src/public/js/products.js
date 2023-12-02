@@ -92,7 +92,8 @@ function updateProduct(productId) {
     const thumbnail = document.getElementById(`thumbnail-${productId}`).value;
     const stock = document.getElementById(`stock-${productId}`).value;
     const code = document.getElementById(`code-${productId}`).value;
-    console.log(owner)
+    const urlParams = new URLSearchParams(window.location.search);
+    const email = urlParams.get('email')
 
 
     const data = {
@@ -102,7 +103,7 @@ function updateProduct(productId) {
         thumbnail: thumbnail,
         stock: stock,
         code: code,
-        owner:owner,
+        owner:email,
     };
     console.log(data)
     const options = {

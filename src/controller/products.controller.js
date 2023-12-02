@@ -2,7 +2,7 @@ import { productDAO } from "../dao/index.js";
 import passport from "passport";
 import { CustomError } from "../utils/errorHandler/customError.js";
 import { errorDictionary } from "../utils/errorHandler/errorDictionary.js";
-
+import transporter from "../utils/mailer/mailer.js"
 async function getAll(req, res){
     let {limit, page, filter,sort, cartId, addedToCart} = req.query;
     let perPage = limit || 10; 
@@ -106,7 +106,8 @@ async function save(req,res){
     try{
         let product = await productDAO.getByCode(code);
         if(!product){
-            productDAO.save({title, description, price, thumbnail, code, stock, email});
+            let data={title, description, price, thumbnail, code, stock,owner: email}
+            productDAO.save(data);
             let newProduct = {title, description, price, thumbnail, code, stock, email}
 
             res.render('productAdded', { productData: newProduct });
@@ -141,8 +142,8 @@ async function deleteProduct(req,res){
         let {pid}=req.params;
         let product = await productDAO.getById(pid);
         if(product){
-            product.status=false;
-            await product.save();
+            await sendProductDeletedEmail(product.owner, product.title);
+            await productDAO.delete(pid)
             res.json({message:"Product deleted", data: product});
         }else{
             throw new CustomError(errorDictionary.PRODUCTS_NOT_FOUND, 404);
@@ -169,5 +170,23 @@ async function activateProduct(req,res){
         req.logger.warning(`Código de error: ${error.errorCode}`);
     }
 }
+
+async function sendProductDeletedEmail(email, product) {
+      
+    const mailOptions = {
+      from: 'pablolr73@gmail.com',
+      to: email,
+      subject: 'Tu producto ' + product + ' ha sido eliminado',
+      text: 'Hola, lamentamos informarte que tu producto ' + product + ' ha sido eliminado. Si tienes alguna pregunta, contáctanos.'
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.error('Error al enviar el correo electrónico:', error);
+      } else {
+        console.log('Correo electrónico enviado:', info.response);
+      }
+    });
+  }
 
 export {getAll, getById, save, update, deleteProduct, activateProduct}
