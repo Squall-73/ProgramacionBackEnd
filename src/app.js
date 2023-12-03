@@ -26,7 +26,7 @@ import userRouter from "./routes/dbRoutes/user.router.js";
 
 
 
-dotenv.config();
+dotenv.config({ path: './src/.env' });
 export const app = express();
 const PORT = process.env.PORT || 8080;
 const httpServer = app.listen(PORT, () => {
@@ -90,9 +90,9 @@ app.engine("handlebars", handlebars.engine({runtimeOptions: {
   noEscape: true
 }
 }));
-app.set('views','./views');
+app.set('views','./src/views');
 app.set("view engine","handlebars");
-app.use(express.static("public", {
+app.use(express.static("./src/public", {
   setHeaders: (res, path) => {
     if (path.endsWith(".js")) {
       res.setHeader("Content-Type", "text/javascript");

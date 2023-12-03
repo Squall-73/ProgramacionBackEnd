@@ -43,3 +43,8 @@ const confirmButton = document.getElementById("confirmButton");
       console.error("Error al confirmar la compra:", error);
     }
   });
+
+  async function goBack() {
+   
+    history.back();
+}

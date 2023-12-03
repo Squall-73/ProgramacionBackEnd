@@ -31,3 +31,7 @@ socket.on("addProduct", (newProduct) => {
 });
 
 
+async function goBack() {
+   
+  history.back();
+}

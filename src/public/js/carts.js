@@ -59,8 +59,8 @@ async function emptyCart(url) {
   }
 }
 
-async function goBack() {
-   
-    history.back();
+async function goToProducts(cid) {
+    const cartId = cid;
+    window.location.href = `http://localhost:8080/api/products?cartId=${cartId}`
 }
 

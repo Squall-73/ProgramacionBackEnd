@@ -206,7 +206,7 @@ async function emptyCart(cid){
         if(cart === updatedCart){
             throw new CustomError(errorDictionary.CART_NOT_EMPTIED, 400);
         }else{
-            return res.json({message: "Cart updated"})
+            return res.status(200).json()
         }
         
     }catch(error){
@@ -242,31 +242,34 @@ async function purchase(req,res){
       }
 
         const datetime= new Date()
-        const purchase_datetime = datetime.toISOString().split('T')[0] + "-" + datetime.toLocaletimeString();
+        const purchase_datetime = datetime.toISOString().split('T')[0] + "-" + datetime.toLocaleString();
         const purcharser = user.email
         const tickets =await ticketManager.getAll();
-        const code="";
+        let code="";
 
         if(tickets.length>=0){
-            const numberCode= tickets.length + 1
+            let numberCode= tickets.length + 1
             code = "A " + numberCode
         }else{
              code = "A " + 1
         }
-        const data={code, purchase_datetime, amount, purcharser};
+        let data={code, purchase_datetime, amount, purcharser};
         
         if(amount>0){
+        
             await ticketManager.save(data);
-            await emptyCart(cartId);
+            //await emptyCart(cartId);
             if(noStockProduct.length){
                 for (let i = 0; i < noStockProduct.length; i++) {
                     const productID = noStockProduct[i].product._id;
                     const quantity = noStockProduct[i].quantity;
                     cart.products.push({id:productID,quantity:parseInt(quantity)})
         }}
+        
         await cartDAO.save(cart)
         const ticket = await ticketManager.getByCode(code)
-       
+        
+        
         data.ticket = ticket._id
         
         res.status(200).json(data)
@@ -275,8 +278,8 @@ async function purchase(req,res){
         }
         
     }catch(error){
-        req.logger.warning(error.message);
-        req.logger.warning(`Código de error: ${error.errorCode}`);
+        
+        res.status(200).json();
     }
 }
 export {getAll, getById, save, saveProduct, update, deleteCart,addCartToFile, removeProduct, purchase}

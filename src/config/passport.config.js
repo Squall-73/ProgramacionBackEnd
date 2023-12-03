@@ -10,7 +10,7 @@ import crypto from "crypto"
 import { CustomError } from "../utils/errorHandler/customError.js";
 import { errorDictionary } from "../utils/errorHandler/errorDictionary.js";
 
-dotenv.config()
+dotenv.config({ path: './src/.env' })
 
 const LocalStrategy = local.Strategy
 const GithubClientId = process.env.GITHUB_CLIENT_ID

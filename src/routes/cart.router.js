@@ -14,7 +14,7 @@ router.post("/:cid/product/:pid",saveProduct);
 router.delete("/:cid/products/:pid",removeProduct)
 router.put("/:cid/products/:pid",update)
 router.delete("/:cid",deleteCart)
-router.post("/purchase", purchase)
+router.post("/purchase", (req, res) => {purchase(req, res)})
 
 
 export default router;
