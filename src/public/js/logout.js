@@ -12,6 +12,6 @@ async function logout() {
   logoutButton.addEventListener("click", async () => {
     const response = await logout();
     if (response.respuesta === "ok") {
-      window.location.href = "http://localhost:8080/"; 
+      window.location.href = window.location.origin; 
     }
   });

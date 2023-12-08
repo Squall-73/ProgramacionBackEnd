@@ -126,7 +126,7 @@ function updateProduct(productId) {
         .then(data => {
             console.log(data);
             alert('Producto agregado correctamente')
-            window.location.href = 'http://localhost:8080/api/products';
+            window.location.href = `${window.location.origin}/api/products`;
 
         })
         .catch(error => {

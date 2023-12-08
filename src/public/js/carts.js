@@ -61,6 +61,11 @@ async function emptyCart(url) {
 
 async function goToProducts(cid) {
     const cartId = cid;
-    window.location.href = `http://localhost:8080/api/products?cartId=${cartId}`
+    const baseUrl = window.location.origin;
+    const productsUrl = '/api/products'; // Ruta relativa desde la base
+
+    const fullUrl = `${baseUrl}${productsUrl}?cartId=${cartId}`;
+    window.location.href = fullUrl;
+    
 }
 

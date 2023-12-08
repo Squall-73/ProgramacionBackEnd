@@ -10,7 +10,7 @@ dotenv.config();
 const Assert = assert.strict
 
 const MONGO_URL = "mongodb+srv://ppiazza:33242384Pp@ecommerce.x6tgjhj.mongodb.net/Ecommerce"
-const requester = supertest("http://localhost:8080")
+const requester = supertest(`${window.location.origin}`)
 
 
 describe("Testing carts Router", () => {

@@ -29,9 +29,9 @@ const confirmButton = document.getElementById("confirmButton");
         const responseData = await response.json()
 
         alert("Compra confirmada. ¡Gracias por tu compra!");
-        window.open(`http://localhost:8080/api/tickets/${responseData.ticket}`);
+        window.open(`${window.location.origin}/api/tickets/${responseData.ticket}`);
 
-        window.location.href = `http://localhost:8080/api/carts/${cartId}`; 
+        window.location.href = `${window.location.origin}/api/carts/${cartId}`; 
 
       }else {
         

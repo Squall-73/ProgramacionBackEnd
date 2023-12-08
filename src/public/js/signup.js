@@ -21,7 +21,7 @@ async function postSignup(first_name, last_name, age, username, password) {
     if (datos.status === "OK") {
       const cartId = datos.cartId;
        setTimeout(()=>{
-         const redirectUrl = `http://localhost:8080/api/products/?cartId=${cartId}`;
+         const redirectUrl = `${window.location.origin}/api/products/?cartId=${cartId}`;
          window.location.replace(redirectUrl);
         },200)
     }

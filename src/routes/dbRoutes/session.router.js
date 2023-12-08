@@ -217,7 +217,7 @@ router.post("/recover", async (req, res) => {
         from: 'pablolr73@gmail.com', // Tu dirección de correo electrónico
         to: email, // La dirección de correo electrónico del usuario
         subject: 'Recuperación de contraseña',
-        text: 'Haz clic en el siguiente enlace para recuperar tu contraseña: http://localhost:8080/api/session/reset-password/' + token,
+        text: `Haz clic en el siguiente enlace para recuperar tu contraseña: ${window.location.origin}/api/session/reset-password/${token}`,
       };
       // Envía el correo electrónico
       transporter.sendMail(mailOptions, function (error, info) {
@@ -225,7 +225,7 @@ router.post("/recover", async (req, res) => {
           console.error('Error al enviar el correo electrónico:', error);
         } else {
           console.log('Correo electrónico enviado:', info.response);
-          res.redirect('http://localhost:8080?mailSent=true')
+          res.redirect(`${window.location.origin}?mailSent=true`)
         }
       });
     
@@ -248,7 +248,7 @@ router.get("/reset-password/:token", async (req, res) => {
     });
   } catch (error) {
     
-    return res.redirect("http://localhost:8080/api/session/recover");
+    return res.redirect(`${window.location.origin}/api/session/recover`);
   }
 });
 
@@ -282,10 +282,10 @@ router.post("/reset-password/", async (req, res) => {
       console.log("Contraseña actualizada");
       user.password = hashedpass;
       await user.save();
-      res.redirect("http://localhost:8080");
+      res.redirect(`${window.location.origin}`);
     }
   } catch (error) {
-    return res.redirect("http://localhost:8080/api/session/recover");
+    return res.redirect(`${window.location.origin}/api/session/recover`);
   }
 });
 
